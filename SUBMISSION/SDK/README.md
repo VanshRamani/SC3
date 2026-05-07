@@ -199,8 +199,8 @@ This SDK is intended to be code-readable end-to-end:
    - `Transfer/` — transfer learning from external (CombiSolv 298K)
      pretraining to the SC³ benchmark distribution.
 
-Each ablation directory has its own `README.md` and (where applicable) a
-`FINDINGS.md` summarizing the take-away.
+Each ablation directory has its own `README.md` describing the
+experiment and how to run it.
 
 ---
 
