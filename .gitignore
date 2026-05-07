@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# SDK runtime artefacts (never commit trained models, results, caches)
+SUBMISSION/SDK/Ablations/**/results/
+SUBMISSION/SDK/Ablations/**/logs/
+SUBMISSION/SDK/Ablations/**/figures/
+SUBMISSION/SDK/Ablations/**/models/
+SUBMISSION/SDK/Ablations/**/cache/
+SUBMISSION/SDK/Ablations/**/feature_cache/
+*.pkl
+*.pt
+*.cbm
+*.safetensors
+*.h5
+*.ckpt
