@@ -9,7 +9,7 @@ The two halves are fully decoupled: the SDK consumes the splits the
 curation pipeline produces, but neither imports the other.
 
 ```
-SUBMISSION/
+.
 ├── README.md      this file
 ├── sc3/           Dataset + reproducible curation pipeline
 └── SDK/           Modeling SDK + ablation studies

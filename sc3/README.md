@@ -8,7 +8,7 @@ The pipeline is reproducible: starting from the raw archive, every script
 under `scripts/` is numbered by phase and produces a deterministic artifact
 in `data/`. The shipped tiers (`gold`, `silver`, `bronze`) and the
 benchmark splits (`bench_train`, `bench_eval`, `bench_ood`) are the inputs
-consumed by every method in the companion SDK (`SUBMISSION/SDK/`).
+consumed by every method in the companion SDK (`../SDK/`).
 
 ---
 
@@ -17,7 +17,7 @@ consumed by every method in the companion SDK (`SUBMISSION/SDK/`).
 ```
 sc3/
 ├── DECISIONS.md            Curation decision log (every "D-XX" rule)
-├── croissant.json          MLCommons Croissant 1.0 + RAI 1.0 metadata
+├── croissant.json          MLCommons Croissant 1.1 + RAI 1.0 metadata
 │                           (regenerate via scripts/90_generate_croissant.py)
 ├── data/
 │   ├── raw/                BigSolDB v2.1 (place archive here — see data/raw/README.md)
@@ -48,7 +48,7 @@ Re-running a phase from scratch reproduces every downstream artifact bit-for-bit
 | 6 — Tiers | `60_tiers.py` | Build SC³ gold / silver / bronze tiers per **D-15**. |
 | 7 — Splits | `70_splits.py` | Construct benchmark train / eval / OOD splits. |
 | 8 — Metrics | `80_metrics.py`, `81_multimodality.py` | Metric definitions (importable module) + motivating analysis. |
-| 9 — Metadata | `90_generate_croissant.py` | Build/refresh the Croissant 1.0 + RAI 1.0 metadata file (`croissant.json`). |
+| 9 — Metadata | `90_generate_croissant.py` | Build/refresh the Croissant 1.1 + RAI 1.0 metadata file (`croissant.json`). |
 
 The full decision log — every `D-XX` referenced above — lives in
 [`DECISIONS.md`](DECISIONS.md).
@@ -57,7 +57,7 @@ The full decision log — every `D-XX` referenced above — lives in
 
 ## Shipped artifacts
 
-The benchmark consumers in `SUBMISSION/SDK/` read from:
+The benchmark consumers in `../SDK/` read from:
 
 | File | Rows | Description |
 |------|-----:|-------------|
@@ -133,22 +133,25 @@ No GPU is required for any step in this directory.
   jump into the pipeline at any phase without re-running upstream steps.
 - This directory is **data + reproducible curation only**. No model
   predictions, training logs, or evaluation tables live here; those belong
-  to the modeling SDK in `SUBMISSION/SDK/`.
+  to the modeling SDK in `../SDK/`.
 
 ---
 
 ## Croissant metadata
 
-`croissant.json` ships a self-contained MLCommons Croissant 1.0 + RAI 1.0
+`croissant.json` ships a self-contained MLCommons Croissant 1.1 + RAI 1.0
 description of every shipped artifact (the three tier CSVs, the long-form
 tier-pair table, and the three benchmark splits). The file conforms to:
 
-- `http://mlcommons.org/croissant/1.0` — Croissant core spec.
-- `http://mlcommons.org/croissant/RAI/1.0` — Responsible-AI extension. All
-  20 RAI fields (`rai:dataCollection`, `rai:dataBiases`, `rai:dataLimitations`,
-  …, `rai:dataReleaseMaintenancePlan`) are populated; fields that are
-  not applicable to a literature-curation pipeline (annotators,
-  demographics, annotation platforms) are explicitly marked
+- `http://mlcommons.org/croissant/1.1` — Croissant core spec.
+- `http://mlcommons.org/croissant/RAI/1.0` — Responsible-AI extension. The
+  full NeurIPS 2026 minimal RAI set (`rai:dataLimitations`, `rai:dataBiases`,
+  `rai:personalSensitiveInformation`, `rai:dataUseCases`, `rai:dataSocialImpact`,
+  `rai:hasSyntheticData`, `prov:wasDerivedFrom`, `prov:wasGeneratedBy`) is
+  populated, plus the extended RAI block (`rai:dataCollection*`,
+  `rai:data*Protocol`, `rai:dataAnnotation*`, `rai:dataReleaseMaintenancePlan`).
+  Fields that are not applicable to a literature-curation pipeline
+  (annotators, demographics, annotation platforms) are explicitly marked
   *"Not applicable"* with a one-line justification rather than left blank.
 
 For each shipped CSV, the metadata records the byte size, a SHA-256
@@ -181,7 +184,7 @@ file or a URL pointing to the metadata file:
 
 The anonymous repo is live at
 `https://anonymous.4open.science/r/SC3-Benchmark/`. Paste
-`https://anonymous.4open.science/r/SC3-Benchmark/SUBMISSION/sc3/croissant.json`
+`https://anonymous.4open.science/r/SC3-Benchmark/sc3/croissant.json`
 into the checker. Locally, on Python ≥ 3.10:
 
 ```bash

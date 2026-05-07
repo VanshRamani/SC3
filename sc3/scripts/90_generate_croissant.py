@@ -288,7 +288,7 @@ def build_file_object(spec: dict[str, Any]) -> OrderedDict:
         ("@id", spec["id"]),
         ("name", spec["name"]),
         ("description", spec["description"]),
-        ("contentUrl", f"{ANON_REPO_URL}/SUBMISSION/sc3/{rel_path}"),
+        ("contentUrl", f"{ANON_REPO_URL}/sc3/{rel_path}"),
         ("encodingFormat", "text/csv"),
         ("contentSize", f"{abs_path.stat().st_size} B"),
         ("sha256", _sha256(abs_path)),
