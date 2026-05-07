@@ -1,0 +1,1143 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": [
+    "http://mlcommons.org/croissant/1.0",
+    "http://mlcommons.org/croissant/RAI/1.0"
+  ],
+  "name": "SC3",
+  "description": "SC3 (Solubility Curation & Consistency Corpus) is a tiered, thermodynamically-consistent multi-solvent solid-solubility dataset derived from BigSolDB v2.1 (Krasnov et al., 2024). The corpus ships three nested quality tiers -- Gold (335 pairs / 4,507 measurements, pair-level inter-lab MAE <= 0.1 log S), Silver (400 / 5,475, MAE <= 0.2), and Bronze (469 / 6,331, MAE <= 0.5) -- plus three solute-disjoint benchmark splits: bench_train (61,403 rows), bench_eval (6,969 rows, in-distribution), and bench_ood (11,940 rows, unseen solvents). Every (solute, solvent, T) row is a literature-reported measurement; consensus tier labels are the mean of independent Apelblat/van't Hoff fits, with per-point sigma calibrated from fit-level disagreement (floored at 0.012 log S). The empirical aleatoric noise floor is epsilon_A = 0.11 log S. The full curation decision log lives in DECISIONS.md and the reproducible pipeline is shipped under scripts/01..81 (Phases 0-8).",
+  "alternateName": [
+    "SC^3",
+    "Solubility Curation and Consistency Corpus"
+  ],
+  "keywords": [
+    "solubility",
+    "log S",
+    "molecular property prediction",
+    "chemistry",
+    "drug discovery",
+    "BigSolDB",
+    "benchmark",
+    "out-of-distribution",
+    "aleatoric uncertainty",
+    "thermodynamic consistency"
+  ],
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://anonymous.4open.science/status/SC3-0371",
+  "version": "2.0",
+  "datePublished": "2026-05-07",
+  "citeAs": "@misc{sc3_anon_2026,  title  = {SC$^3$: Solubility Curation \\& Consistency Corpus},  author = {Anonymous},  year   = {2026},  note   = {NeurIPS 2026 Datasets and Benchmarks Track (under review). Anonymous submission.},  url    = {https://anonymous.4open.science/status/SC3-0371}}",
+  "creator": {
+    "@type": "sc:Person",
+    "name": "Anonymous (NeurIPS 2026 D&B double-blind submission)"
+  },
+  "publisher": {
+    "@type": "sc:Organization",
+    "name": "Anonymous"
+  },
+  "inLanguage": "en",
+  "isLiveDataset": false,
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "sc3_gold",
+      "name": "sc3-gold",
+      "description": "SC3 Gold tier: 335 (solute, solvent) pairs across 26 solvents, 4,507 measured-temperature rows. Pair-level inter-lab MAE <= 0.1 log S. Highest-confidence multi-source consensus rows; sigma is defined for 76.5% of rows. Decision D-15.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/sc3/gold.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "445030 B",
+      "sha256": "5537fcb8eae5d11fcb874ef911e49677a6050918d6b68a08e49fee8b6c018a69"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "sc3_silver",
+      "name": "sc3-silver",
+      "description": "SC3 Silver tier: 400 pairs / 5,475 rows, pair-level MAE <= 0.2 log S. Superset of Gold (Gold subset Silver). Decision D-15.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/sc3/silver.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "540127 B",
+      "sha256": "3593961ab1a375fc386d243f6587471813bcbbe45ad10906301fd1129d19962b"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "sc3_bronze",
+      "name": "sc3-bronze",
+      "description": "SC3 Bronze tier: 469 pairs / 6,331 rows, pair-level MAE <= 0.5 log S. Superset of Silver. Decision D-15.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/sc3/bronze.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "628848 B",
+      "sha256": "81f41454ba494135a82241021ed936b16d379f6f01eed582d79e3aa44f663e4c"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "sc3_tier_pairs",
+      "name": "sc3-tier-pairs",
+      "description": "Long-form tier-membership table: one row per tier-eligible (solute, solvent) pair (n=469), with pair-level statistics and boolean tier flags. Drives the per-pair tier assignments used by gold.csv / silver.csv / bronze.csv.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/sc3/tier_pairs.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "46922 B",
+      "sha256": "3c2af8ab350b230c9e69206bf552ff6c99da1c02a08d8a474223b4fbbc4d1963"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "bench_train",
+      "name": "bench-train",
+      "description": "Benchmark training split. 61,403 rows, 1,144 solutes, 25 ID solvents, 6,840 (solute, solvent) pairs. Anti-leakage: every solute that appears in any tier (148 solutes) is excluded from training under all solvents. Decision D-16.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/splits/bench_train.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "7675898 B",
+      "sha256": "dd2ab39addf7496319bc2213803d30cb7e60604035f68f1ed68c72a6e4eac735"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "bench_eval",
+      "name": "bench-eval",
+      "description": "In-distribution evaluation split: 6,969 rows, 534 solutes, 25 ID solvents, 771 (solute, solvent) pairs. 10% of pairs per ID solvent held out at the pair level (seed 42). All temperatures of a held-out pair stay together. Decision D-16.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/splits/bench_eval.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "865739 B",
+      "sha256": "745923602fdfe86f339ef1288bd578de7cf2901f11babc19e5c4ca5d2e5d4b22"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "bench_ood",
+      "name": "bench-ood",
+      "description": "Out-of-distribution split (unseen solvents): 11,940 rows, 586 solutes, 161 OOD solvents, 1,450 pairs. Stress test for solvent generalization. Decision D-16.",
+      "contentUrl": "https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/data/splits/bench_ood.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "1557589 B",
+      "sha256": "9a0692da70bd20152e1e955f179767d84de61bde9addeb0180bb982341aca727"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "sc3_gold_records",
+      "name": "sc3_gold",
+      "description": "SC3 Gold tier: 335 (solute, solvent) pairs across 26 solvents, 4,507 measured-temperature rows. Pair-level inter-lab MAE <= 0.1 log S. Highest-confidence multi-source consensus rows; sigma is defined for 76.5% of rows. Decision D-15.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute (isomericSmiles=True; chirality and geometric isomerism preserved per decision D-01 'Option D').",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Reference temperature in Kelvin at which the consensus log S is reported. Restricted to measured temperatures only (no extrapolation; see D-15).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/LogS_consensus",
+          "name": "LogS_consensus",
+          "description": "Consensus log10 solubility computed as the mean of fitted Apelblat / van't Hoff curves (one per non-Hall-of-Shame independence group whose fit range covers Temperature_K). Units follow D-15 (decadic log mole-fraction or molality, consistent with the upstream BigSolDB v2.1 column).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "LogS_consensus"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/sigma",
+          "name": "sigma",
+          "description": "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, floored at 0.012 log S. NaN when only one independence group's fit covers Temperature_K (~23% of rows).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "sigma"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/n_contributing_groups",
+          "name": "n_contributing_groups",
+          "description": "Number of independence groups whose Apelblat/van't Hoff fit range covers Temperature_K and contributes to LogS_consensus / sigma.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "n_contributing_groups"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_gold_records/pair_MAE",
+          "name": "pair_MAE",
+          "description": "Pair-level inter-group MAE (log S) used to assign the (solute, solvent) pair to a tier: Gold <= 0.1, Silver <= 0.2, Bronze <= 0.5.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_gold"
+            },
+            "extract": {
+              "column": "pair_MAE"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "sc3_gold_records/Solute_Canon"
+        },
+        {
+          "@id": "sc3_gold_records/Solvent_Canon"
+        },
+        {
+          "@id": "sc3_gold_records/Temperature_K"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "sc3_silver_records",
+      "name": "sc3_silver",
+      "description": "SC3 Silver tier: 400 pairs / 5,475 rows, pair-level MAE <= 0.2 log S. Superset of Gold (Gold subset Silver). Decision D-15.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute (isomericSmiles=True; chirality and geometric isomerism preserved per decision D-01 'Option D').",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Reference temperature in Kelvin at which the consensus log S is reported. Restricted to measured temperatures only (no extrapolation; see D-15).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/LogS_consensus",
+          "name": "LogS_consensus",
+          "description": "Consensus log10 solubility computed as the mean of fitted Apelblat / van't Hoff curves (one per non-Hall-of-Shame independence group whose fit range covers Temperature_K). Units follow D-15 (decadic log mole-fraction or molality, consistent with the upstream BigSolDB v2.1 column).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "LogS_consensus"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/sigma",
+          "name": "sigma",
+          "description": "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, floored at 0.012 log S. NaN when only one independence group's fit covers Temperature_K (~23% of rows).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "sigma"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/n_contributing_groups",
+          "name": "n_contributing_groups",
+          "description": "Number of independence groups whose Apelblat/van't Hoff fit range covers Temperature_K and contributes to LogS_consensus / sigma.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "n_contributing_groups"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_silver_records/pair_MAE",
+          "name": "pair_MAE",
+          "description": "Pair-level inter-group MAE (log S) used to assign the (solute, solvent) pair to a tier: Gold <= 0.1, Silver <= 0.2, Bronze <= 0.5.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_silver"
+            },
+            "extract": {
+              "column": "pair_MAE"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "sc3_silver_records/Solute_Canon"
+        },
+        {
+          "@id": "sc3_silver_records/Solvent_Canon"
+        },
+        {
+          "@id": "sc3_silver_records/Temperature_K"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "sc3_bronze_records",
+      "name": "sc3_bronze",
+      "description": "SC3 Bronze tier: 469 pairs / 6,331 rows, pair-level MAE <= 0.5 log S. Superset of Silver. Decision D-15.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute (isomericSmiles=True; chirality and geometric isomerism preserved per decision D-01 'Option D').",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Reference temperature in Kelvin at which the consensus log S is reported. Restricted to measured temperatures only (no extrapolation; see D-15).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/LogS_consensus",
+          "name": "LogS_consensus",
+          "description": "Consensus log10 solubility computed as the mean of fitted Apelblat / van't Hoff curves (one per non-Hall-of-Shame independence group whose fit range covers Temperature_K). Units follow D-15 (decadic log mole-fraction or molality, consistent with the upstream BigSolDB v2.1 column).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "LogS_consensus"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/sigma",
+          "name": "sigma",
+          "description": "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, floored at 0.012 log S. NaN when only one independence group's fit covers Temperature_K (~23% of rows).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "sigma"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/n_contributing_groups",
+          "name": "n_contributing_groups",
+          "description": "Number of independence groups whose Apelblat/van't Hoff fit range covers Temperature_K and contributes to LogS_consensus / sigma.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "n_contributing_groups"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_bronze_records/pair_MAE",
+          "name": "pair_MAE",
+          "description": "Pair-level inter-group MAE (log S) used to assign the (solute, solvent) pair to a tier: Gold <= 0.1, Silver <= 0.2, Bronze <= 0.5.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_bronze"
+            },
+            "extract": {
+              "column": "pair_MAE"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "sc3_bronze_records/Solute_Canon"
+        },
+        {
+          "@id": "sc3_bronze_records/Solvent_Canon"
+        },
+        {
+          "@id": "sc3_bronze_records/Temperature_K"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "sc3_tier_pairs_records",
+      "name": "sc3_tier_pairs",
+      "description": "Long-form tier-membership table: one row per tier-eligible (solute, solvent) pair (n=469), with pair-level statistics and boolean tier flags. Drives the per-pair tier assignments used by gold.csv / silver.csv / bronze.csv.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/pair_MAE",
+          "name": "pair_MAE",
+          "description": "Pair-level inter-group MAE in log S.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "pair_MAE"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/n_contributing_groups",
+          "name": "n_contributing_groups",
+          "description": "Number of independence groups in this pair (post-Stage A + Stage B' merging).",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "n_contributing_groups"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/n_rows",
+          "name": "n_rows",
+          "description": "Total measured-temperature rows for this pair.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "n_rows"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/n_rows_sigma_defined",
+          "name": "n_rows_sigma_defined",
+          "description": "Number of rows whose sigma is finite (i.e., >=2 contributing groups at that T).",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "n_rows_sigma_defined"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/median_sigma",
+          "name": "median_sigma",
+          "description": "Median of the per-row sigma values (NaN-safe; computed over sigma-defined rows).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "median_sigma"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/tier_gold",
+          "name": "tier_gold",
+          "description": "True if the pair belongs to the Gold tier (pair_MAE <= 0.1).",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "tier_gold"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/tier_silver",
+          "name": "tier_silver",
+          "description": "True if the pair belongs to the Silver tier (pair_MAE <= 0.2).",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "tier_silver"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "sc3_tier_pairs_records/tier_bronze",
+          "name": "tier_bronze",
+          "description": "True if the pair belongs to the Bronze tier (pair_MAE <= 0.5).",
+          "dataType": "sc:Boolean",
+          "source": {
+            "fileObject": {
+              "@id": "sc3_tier_pairs"
+            },
+            "extract": {
+              "column": "tier_bronze"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "sc3_tier_pairs_records/Solute_Canon"
+        },
+        {
+          "@id": "sc3_tier_pairs_records/Solvent_Canon"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "bench_train_records",
+      "name": "bench_train",
+      "description": "Benchmark training split. 61,403 rows, 1,144 solutes, 25 ID solvents, 6,840 (solute, solvent) pairs. Anti-leakage: every solute that appears in any tier (148 solutes) is excluded from training under all solvents. Decision D-16.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Solvent",
+          "name": "Solvent",
+          "description": "Human-readable solvent name from the upstream BigSolDB row. Informational only -- the curation pipeline keys on Solvent_Canon.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Solvent"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Measurement temperature in Kelvin.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/LogS",
+          "name": "LogS",
+          "description": "Decadic log solubility as reported in the cleaned BigSolDB row. Pre-tier construction; this is the per-measurement label, not the consensus value.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "LogS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Solubility(mole_fraction)",
+          "name": "Solubility(mole_fraction)",
+          "description": "Solubility expressed as a mole fraction, as carried through from BigSolDB v2.1.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Solubility(mole_fraction)"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/MW",
+          "name": "MW",
+          "description": "Molecular weight (g/mol) of the solute, computed via rdkit.Chem.Descriptors.MolWt on Solute_Canon.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "MW"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_train_records/Source",
+          "name": "Source",
+          "description": "DOI of the publication that reported this measurement (or the BigSolDB DOI alias when the upstream row carries no DOI).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_train"
+            },
+            "extract": {
+              "column": "Source"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "bench_train_records/Solute_Canon"
+        },
+        {
+          "@id": "bench_train_records/Solvent_Canon"
+        },
+        {
+          "@id": "bench_train_records/Temperature_K"
+        },
+        {
+          "@id": "bench_train_records/Source"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "bench_eval_records",
+      "name": "bench_eval",
+      "description": "In-distribution evaluation split: 6,969 rows, 534 solutes, 25 ID solvents, 771 (solute, solvent) pairs. 10% of pairs per ID solvent held out at the pair level (seed 42). All temperatures of a held-out pair stay together. Decision D-16.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Solvent",
+          "name": "Solvent",
+          "description": "Human-readable solvent name from the upstream BigSolDB row. Informational only -- the curation pipeline keys on Solvent_Canon.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Solvent"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Measurement temperature in Kelvin.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/LogS",
+          "name": "LogS",
+          "description": "Decadic log solubility as reported in the cleaned BigSolDB row. Pre-tier construction; this is the per-measurement label, not the consensus value.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "LogS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Solubility(mole_fraction)",
+          "name": "Solubility(mole_fraction)",
+          "description": "Solubility expressed as a mole fraction, as carried through from BigSolDB v2.1.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Solubility(mole_fraction)"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/MW",
+          "name": "MW",
+          "description": "Molecular weight (g/mol) of the solute, computed via rdkit.Chem.Descriptors.MolWt on Solute_Canon.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "MW"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_eval_records/Source",
+          "name": "Source",
+          "description": "DOI of the publication that reported this measurement (or the BigSolDB DOI alias when the upstream row carries no DOI).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_eval"
+            },
+            "extract": {
+              "column": "Source"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "bench_eval_records/Solute_Canon"
+        },
+        {
+          "@id": "bench_eval_records/Solvent_Canon"
+        },
+        {
+          "@id": "bench_eval_records/Temperature_K"
+        },
+        {
+          "@id": "bench_eval_records/Source"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "bench_ood_records",
+      "name": "bench_ood",
+      "description": "Out-of-distribution split (unseen solvents): 11,940 rows, 586 solutes, 161 OOD solvents, 1,450 pairs. Stress test for solvent generalization. Decision D-16.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Solute_Canon",
+          "name": "Solute_Canon",
+          "description": "RDKit canonical SMILES of the solute.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Solute_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Solvent_Canon",
+          "name": "Solvent_Canon",
+          "description": "RDKit canonical SMILES of the solvent.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Solvent_Canon"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Solvent",
+          "name": "Solvent",
+          "description": "Human-readable solvent name from the upstream BigSolDB row. Informational only -- the curation pipeline keys on Solvent_Canon.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Solvent"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Temperature_K",
+          "name": "Temperature_K",
+          "description": "Measurement temperature in Kelvin.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Temperature_K"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/LogS",
+          "name": "LogS",
+          "description": "Decadic log solubility as reported in the cleaned BigSolDB row. Pre-tier construction; this is the per-measurement label, not the consensus value.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "LogS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Solubility(mole_fraction)",
+          "name": "Solubility(mole_fraction)",
+          "description": "Solubility expressed as a mole fraction, as carried through from BigSolDB v2.1.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Solubility(mole_fraction)"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/MW",
+          "name": "MW",
+          "description": "Molecular weight (g/mol) of the solute, computed via rdkit.Chem.Descriptors.MolWt on Solute_Canon.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "MW"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "bench_ood_records/Source",
+          "name": "Source",
+          "description": "DOI of the publication that reported this measurement (or the BigSolDB DOI alias when the upstream row carries no DOI).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "bench_ood"
+            },
+            "extract": {
+              "column": "Source"
+            }
+          }
+        }
+      ],
+      "key": [
+        {
+          "@id": "bench_ood_records/Solute_Canon"
+        },
+        {
+          "@id": "bench_ood_records/Solvent_Canon"
+        },
+        {
+          "@id": "bench_ood_records/Temperature_K"
+        },
+        {
+          "@id": "bench_ood_records/Source"
+        }
+      ]
+    }
+  ],
+  "rai:dataCollection": "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., 2024), an open-source compilation of solid-solubility measurements harvested from peer-reviewed publications and distributed via figshare (https://doi.org/10.6084/m9.figshare.21118034). On top of the upstream archive, SC3 applies (i) RDKit canonicalization preserving stereo and geometric isomerism (decision D-01 'Option D'); (ii) a manually-audited bad-DOI exclusion list jointly maintained with the BigSolDB v2.1 co-maintainer (D-03, D-12); (iii) two-stage copycat detection -- bit-exact (D-05 Stage A) and interpolated MAE-based (D-14 Stage B'); (iv) per-independence-group Apelblat / van't Hoff fits (D-13); (v) inter-lab aleatoric noise estimation (D-13, D-14); (vi) three nested tiers (D-15); and (vii) anti-leakage solute-disjoint train/eval/OOD splits (D-16).",
+  "rai:dataCollectionType": "Curated derivative of a literature compilation. No human subjects, no annotators, no demographic data: every row corresponds to a published thermodynamic measurement.",
+  "rai:dataCollectionMissingData": "(a) Per-row sigma is NaN for ~23% of tier rows where only one independence group's fit range covers the reference temperature (documented in tier_summary.json). (b) The bench_* splits expose LogS, not sigma; sigma is defined only for tier rows and is intentionally absent from training rows. (c) The Solvent (human-readable name) column is informational; the pipeline keys on Solvent_Canon (SMILES). (d) Rows with logS outside [-15, 2], MW > 1000 Da, polymeric solvents, or salt/mixture solutes are dropped, not imputed (D-07/D-08/D-09).",
+  "rai:dataCollectionRawData": "BigSolDB v2.1 (Krasnov et al., 'BigSolDB: solubility dataset of compounds in organic solvents and water in a wide range of temperatures', 2024; figshare DOI 10.6084/m9.figshare.21118034). SC3 does not redistribute the raw BigSolDB rows. Reviewers and downstream users must download the upstream archive separately and re-run scripts/01..81 to regenerate the SC3 artifacts (the pipeline is deterministic; row-by-row reproducibility is asserted by scripts/03_targeted_checks.py).",
+  "rai:dataCollectionTimeframe": "Curation v2 was conducted between Q4 2025 and Q1 2026. The underlying BigSolDB v2.1 source measurements are drawn from peer-reviewed publications dating up to 2025.",
+  "rai:dataImputationProtocol": "No imputation. Rows with missing or unparseable SMILES, missing temperatures, missing logS, or values outside the validity bounds in decisions D-07/D-08/D-09 are dropped rather than imputed.",
+  "rai:dataPreprocessingProtocol": "Eight-phase deterministic pipeline (see DECISIONS.md and scripts/01..81): Phase 0 audit -> Phase 1 SMILES canonicalization (RDKit isomericSmiles=True, no tautomer enumeration, no chirality stripping; D-01) -> Phase 1.5 manual corrections (4 DOIs, D-12) -> Phase 2 cleaning waterfall (bad DOIs, polymers, salts, MW <=1000 Da, logS in [-15, 2], intra-DOI rounding dedupe; D-03/D-07/D-08/D-09/D-10) -> Phase 3 source integrity (Stage A bit-exact copycats; D-05) -> Phase 4 Apelblat/van't Hoff fits per independence group -> Phase 3B (45_*) interpolated Stage B' copycats and Stage C' reliability (D-14) -> Phase 5 aleatoric estimation epsilon_A = 0.11 log S (D-13) -> Phase 6 tier construction Gold/Silver/Bronze (D-15) -> Phase 7 splits train/eval/OOD with solute-level anti-leakage (D-16) -> Phase 8 metric suite RMSE/MAE/MedAE/PS-RMSE/Z-RMSE (D-17).",
+  "rai:dataManipulationProtocol": "Solute and solvent SMILES are RDKit-canonicalized once at Phase 1 and remain immutable thereafter. Temperatures are rounded to 0.1 K only for intra-DOI duplicate detection at Phase 2 W7. LogS values from four DOIs are corrected at Phase 1.5 per the manual audit (D-12): two DOIs receive +1.0 log shifts, one receives a ethanol/ethyl-acetate label swap with re-derivation, one receives an explicit value replacement at four temperatures. All other LogS values are passed through unmodified.",
+  "rai:dataAnnotationProtocol": "Not applicable: SC3 is fully algorithmic curation. The two 'manual' elements -- the bad-DOI list (D-03) and the targeted corrections (D-12) -- are domain-expert review of automatically-flagged candidates; both are recorded in DECISIONS.md with the supporting evidence (residual analyses, co-maintainer audit log, PubChem/CAS verification) cited inline.",
+  "rai:dataAnnotationPlatform": "Not applicable (no annotation task).",
+  "rai:dataAnnotationAnalysis": "Not applicable (no annotation task).",
+  "rai:annotationsPerItem": "Not applicable. Each (solute, solvent, T) row is a single literature-reported equilibrium measurement; for tier rows, the n_contributing_groups column reports the number of independent literature sources whose fits cover that temperature.",
+  "rai:annotatorDemographics": "Not applicable (no human annotators).",
+  "rai:machineAnnotationTools": "RDKit (canonicalization, MW, parseability), SciPy (Apelblat / van't Hoff non-linear least-squares fits), scikit-learn (split construction with seed 42), pandas/numpy (cleaning waterfall, groupwise statistics).",
+  "rai:dataBiases": "(1) Solvent count imbalance -- top-5 solvents account for 37.5% of cleaned rows; top-25 cover 84.5%. Aggregate RMSE is dominated by water/ethanol/methanol; PS-RMSE (per-solvent macro-average) mitigates this. (2) Pharma-leaning solute distribution -- BigSolDB sources skew toward drug-like molecules; petrochemicals, organometallics, dyes, and polymers will be out-of-distribution. (3) Salt/hydrate exclusion -- D-08 drops multi-component solutes, so pharmaceutically relevant salt solubilities are absent. (4) Stereo coverage gap -- D- and L- enantiomers are unevenly represented in BigSolDB; under D-01 (Option D) they are kept as distinct solutes. (5) Temperature coverage -- nominal range 243-426 K is heavily concentrated at 293-323 K; sub-zero and high-T behaviour is poorly covered. (6) Reliability coverage -- ~80% of DOIs (1,094 / 1,493) have no peer-overlapping group, hence cannot be reliability-tested under D-14 Stage C'. They enter the training pool but their per-row error bars are uncalibrated.",
+  "rai:dataUseCases": "(a) Benchmarking SMILES -> log S regression models across in-distribution (Eval), unseen-solvent (OOD), and high-quality consensus (Gold/Silver/Bronze) splits. (b) Calibration analysis: comparing model error to the empirical aleatoric floor epsilon_A = 0.11 log S using the Z-RMSE metric (D-17). Z-RMSE = 1 means model error matches measurement noise. (c) Solvent-balanced evaluation via PS-RMSE, designed to strip the count-weighting + between-solvent inflation that contaminates aggregate RMSE on multi-solvent solubility data. (d) Studies of label noise, multi-source disagreement, and inter-lab reproducibility in physico-chemical literature data.",
+  "rai:dataLimitations": "(1) Not exhaustive: only (solute, solvent, T) triples surviving D-01..D-15 are retained. Many BigSolDB rows are intentionally filtered. (2) Equilibrium thermodynamic solubility only -- not a kinetics or intrinsic-solubility dataset. (3) Crystal-form information is lost: polymorphs, solvates, salt forms, and amorphous forms are either filtered or merged. (4) The aleatoric floor epsilon_A = 0.11 log S is a lower bound for any error metric on Gold; a model that reports lower RMSE on Gold is fitting the consensus label, not improving over the literature. (5) The OOD split is a stress test, not a uniform evaluation: many OOD solvents have <10 rows. (6) Source measurements pre-date the curation; outliers can be flagged but not re-measured. (7) Splits are stratified by solute identity, not by publication year -- there is no temporal/causal split.",
+  "rai:dataSocialImpact": "SC3 targets molecular-property prediction for drug-likeness and process-chemistry solvent selection. Downstream models trained on SC3 may inform pharmaceutical formulation decisions and green-solvent screening pipelines. The dataset itself contains no human-impacting decision signal: only molecular structures, thermodynamic measurements, and DOI source identifiers. Indirect risks: a model that systematically under-predicts solubility for under-represented solvents or solute classes may, if deployed in early-stage screening, bias which compounds advance. This is explicitly mitigated by (a) reporting PS-RMSE alongside RMSE, (b) shipping the OOD split to expose unseen-solvent generalization, (c) shipping per-row sigma so downstream predictions can be uncertainty-weighted.",
+  "rai:personalSensitiveInformation": "None. SC3 contains only molecular structures (SMILES), thermodynamic measurements (T in K, log S, mole fraction, MW), and DOI source identifiers. No personally identifiable information, biometric data, demographic data, health data, or other sensitive categories are present at any phase of the pipeline.",
+  "rai:dataReleaseMaintenancePlan": "SC3 v2 is the version submitted to NeurIPS 2026 Datasets & Benchmarks for review. The reproducible curation pipeline (scripts/01..81) is shipped alongside the dataset and regenerates every artifact bit-exactly from BigSolDB v2.1. Future versions (v3+) are planned to track upstream BigSolDB releases; each version will retain the full DECISIONS.md log with date stamps. Anonymous review repository for double-blind purposes only -- by the camera-ready deadline, the dataset will be re-released publicly under CC-BY-4.0 on a stable archival platform (Hugging Face Datasets or Zenodo, TBD), with the current anonymous URL deprecated. The maintainers commit to keeping the public release available for at least five years post-publication."
+}

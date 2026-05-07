@@ -10,7 +10,7 @@ curation pipeline produces, but neither imports the other.
 
 ```
 SUBMISSION/
-├── README.md      submission-level overview
+├── README.md      this file
 ├── sc3/           Dataset + reproducible curation pipeline
 └── SDK/           Modeling SDK + ablation studies
 ```
@@ -19,64 +19,62 @@ SUBMISSION/
 
 ## Quick orientation
 
-| If you want to …                                                    | Read this                                                                |
-|---------------------------------------------------------------------|--------------------------------------------------------------------------|
-| Read the submission overview                                        | [`SUBMISSION/README.md`](SUBMISSION/README.md)                           |
-| Understand the SC³ corpus and how it was built                      | [`SUBMISSION/sc3/README.md`](SUBMISSION/sc3/README.md)                   |
-| See every curation rule and design decision                         | [`SUBMISSION/sc3/DECISIONS.md`](SUBMISSION/sc3/DECISIONS.md)             |
-| Inspect the shipped tier files (gold / silver / bronze)             | `SUBMISSION/sc3/data/sc3/`                                               |
-| Inspect the benchmark splits (train / eval / OOD)                   | `SUBMISSION/sc3/data/splits/`                                            |
-| Learn the methods catalogue and how training is dispatched          | [`SUBMISSION/SDK/README.md`](SUBMISSION/SDK/README.md)                   |
-| See the registry of every method in one place                       | `SUBMISSION/SDK/sc3_bench/registry.py`                                   |
-| Read a single method end-to-end                                     | files under `SUBMISSION/SDK/sc3_bench/models/`                           |
-| Read the four ablation studies                                      | `SUBMISSION/SDK/Ablations/{Data_Scaling,Interpretability,Representation,Transfer}/` |
+| If you want to …                                                    | Read this                                   |
+|---------------------------------------------------------------------|---------------------------------------------|
+| Understand the SC³ corpus and how it was built                      | [`sc3/README.md`](sc3/README.md)            |
+| See every curation rule and design decision                         | [`sc3/DECISIONS.md`](sc3/DECISIONS.md)      |
+| Inspect the shipped tier files (gold / silver / bronze)             | `sc3/data/sc3/`                             |
+| Inspect the benchmark splits (train / eval / OOD)                   | `sc3/data/splits/`                          |
+| Learn the methods catalogue and how training is dispatched          | [`SDK/README.md`](SDK/README.md)            |
+| See the registry of every method in one place                       | `SDK/sc3_bench/registry.py`                 |
+| Read a single method end-to-end                                     | files under `SDK/sc3_bench/models/`         |
+| Read the four ablation studies                                      | `SDK/Ablations/{Data_Scaling,Interpretability,Representation,Transfer}/` |
 
 ---
 
 ## Repository layout (one screen)
 
 ```
-SUBMISSION/
-├── README.md
-├── sc3/
-│   ├── README.md                  Pipeline phases, shipped artifacts, reproduction
-│   ├── DECISIONS.md               Per-decision rationale ("D-XX" rules)
-│   ├── data/
-│   │   ├── raw/                   BigSolDB v2.1 — placed by the user (see data/raw/README.md)
-│   │   ├── interim/               Per-phase checkpoints (canonicalized → cleaned → ...)
-│   │   ├── sc3/                   Final tiered dataset (gold/silver/bronze)
-│   │   └── splits/                bench_train / bench_eval / bench_ood
-│   └── scripts/                   Numbered curation pipeline (Phase 0 → Phase 8)
-└── SDK/
-    ├── README.md                  Method catalog, dispatch protocol, conventions
-    ├── requirements.txt
-    ├── configs/best_hps.json      Best hyperparameters per method
-    ├── sc3_bench/                 Importable Python package
-    │   ├── registry.py            METHOD_REGISTRY (single source of truth)
-    │   ├── train.py               Per-seed training dispatcher
-    │   ├── data.py / featurizers.py / evaluate.py / collect.py
-    │   └── models/
-    │       ├── tree_models.py / descriptor_models.py / gnn_models.py / molmerger.py
-    │       └── external/          Additional baselines (SolTranNet, Uni-Mol2,
-    │                              UNIFAC, Solvaformer, RIL-OOD, Chemprop)
-    ├── scripts/run_analyticals.py Non-trainable baselines (Abraham, ESOL, GSE, …)
-    └── Ablations/
-        ├── Data_Scaling/
-        ├── Interpretability/
-        ├── Representation/
-        └── Transfer/
+sc3/
+├── README.md                  Pipeline phases, shipped artifacts, reproduction
+├── DECISIONS.md               Per-decision rationale ("D-XX" rules)
+├── data/
+│   ├── raw/                   BigSolDB v2.1 — placed by the user (see data/raw/README.md)
+│   ├── interim/               Per-phase checkpoints (canonicalized → cleaned → ...)
+│   ├── sc3/                   Final tiered dataset (gold/silver/bronze)
+│   └── splits/                bench_train / bench_eval / bench_ood
+└── scripts/                   Numbered curation pipeline (Phase 0 → Phase 8)
+
+SDK/
+├── README.md                  Method catalog, dispatch protocol, conventions
+├── requirements.txt
+├── configs/best_hps.json      Best hyperparameters per method
+├── sc3_bench/                 Importable Python package
+│   ├── registry.py            METHOD_REGISTRY (single source of truth)
+│   ├── train.py               Per-seed training dispatcher
+│   ├── data.py / featurizers.py / evaluate.py / collect.py
+│   └── models/
+│       ├── tree_models.py / descriptor_models.py / gnn_models.py / molmerger.py
+│       └── external/          Additional baselines (SolTranNet, Uni-Mol2,
+│                              UNIFAC, Solvaformer, RIL-OOD, Chemprop)
+├── scripts/run_analyticals.py Non-trainable baselines (Abraham, ESOL, GSE, …)
+└── Ablations/
+    ├── Data_Scaling/
+    ├── Interpretability/
+    ├── Representation/
+    └── Transfer/
 ```
 
 ---
 
 ## How the two halves connect
 
-The SDK reads exactly four artifacts from `SUBMISSION/sc3/`:
+The SDK reads exactly four artifacts from `sc3/`:
 
-| SDK consumer                          | sc3/ artifact                                                                     |
-|---------------------------------------|-----------------------------------------------------------------------------------|
-| `sc3_bench.data.load_all_splits()`    | `SUBMISSION/sc3/data/splits/{bench_train,bench_eval,bench_ood}.csv`               |
-| Same loader                           | `SUBMISSION/sc3/data/sc3/{gold,silver,bronze}.csv`                                |
+| SDK consumer                          | sc3/ artifact                         |
+|---------------------------------------|---------------------------------------|
+| `sc3_bench.data.load_all_splits()`    | `sc3/data/splits/{bench_train,bench_eval,bench_ood}.csv` |
+| Same loader                           | `sc3/data/sc3/{gold,silver,bronze}.csv` |
 | `featurizers.cache_features()`        | The above CSV columns: `Solute_Canon`, `Solvent_Canon`, `Solvent_Name`, `Temperature_K`, `LogS`, `Uncertainty` |
 
 Re-running the curation pipeline produces these CSVs deterministically;
@@ -105,8 +103,6 @@ paper end-to-end.
 ## Reproduction at a glance
 
 ```bash
-cd SUBMISSION
-
 # 1. Install dependencies (see SDK/requirements.txt for the base set;
 #    method-specific extras are listed in SDK/README.md).
 pip install -r SDK/requirements.txt
@@ -128,7 +124,7 @@ python -c "from sc3_bench.train import train_method; train_method('lgb_rdkit', s
 python -c "from sc3_bench import collect; collect.build_table()"
 ```
 
-Every method registered in `SUBMISSION/SDK/sc3_bench/registry.py` follows the same
+Every method registered in `SDK/sc3_bench/registry.py` follows the same
 `train_method(method_key, seeds=[...])` interface, regardless of whether
 it is a tree, a descriptor MLP, a GNN, or an external baseline.
 
@@ -138,14 +134,14 @@ it is a tree, a descriptor MLP, a GNN, or an external baseline.
 
 * **Splits** are named `train`, `eval`, `ood`, plus the consensus tiers
   `sc3_gold`, `sc3_silver`, `sc3_bronze`. Definitions live in
-  `SUBMISSION/sc3/scripts/70_splits.py` and `SUBMISSION/sc3/DECISIONS.md` (D-15, D-16).
+  `sc3/scripts/70_splits.py` and `sc3/DECISIONS.md` (D-15, D-16).
 * **Target column** is `LogS` = log₁₀(mole fraction).
 * **Default seed set** is `[42, 101, 123, 456, 789]`
-  (`SUBMISSION/SDK/sc3_bench/registry.py: DEFAULT_SEEDS`).
-* **Metric suite** (`SUBMISSION/SDK/sc3_bench/evaluate.py`): RMSE, MAE, R²,
+  (`SDK/sc3_bench/registry.py: DEFAULT_SEEDS`).
+* **Metric suite** (`SDK/sc3_bench/evaluate.py`): RMSE, MAE, R²,
   per-solvent RMSE (PS-RMSE), uncertainty-normalised RMSE (Z-RMSE).
-  Rationale for the non-standard variants is in `SUBMISSION/sc3/scripts/81_multimodality.py`
-  and the corresponding section of `SUBMISSION/sc3/DECISIONS.md`.
+  Rationale for the non-standard variants is in `sc3/scripts/81_multimodality.py`
+  and the corresponding section of `sc3/DECISIONS.md`.
 * **License / citation** will be added on de-anonymization.
 
 ---

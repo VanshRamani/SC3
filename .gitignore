@@ -12,12 +12,12 @@ venv/
 .DS_Store
 
 # SDK runtime artefacts (never commit trained models, results, caches)
-SUBMISSION/SDK/Ablations/**/results/
-SUBMISSION/SDK/Ablations/**/logs/
-SUBMISSION/SDK/Ablations/**/figures/
-SUBMISSION/SDK/Ablations/**/models/
-SUBMISSION/SDK/Ablations/**/cache/
-SUBMISSION/SDK/Ablations/**/feature_cache/
+SDK/Ablations/**/results/
+SDK/Ablations/**/logs/
+SDK/Ablations/**/figures/
+SDK/Ablations/**/models/
+SDK/Ablations/**/cache/
+SDK/Ablations/**/feature_cache/
 *.pkl
 *.pt
 *.cbm

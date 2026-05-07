@@ -17,6 +17,8 @@ consumed by every method in the companion SDK (`SUBMISSION/SDK/`).
 ```
 sc3/
 ├── DECISIONS.md            Curation decision log (every "D-XX" rule)
+├── croissant.json          MLCommons Croissant 1.0 + RAI 1.0 metadata
+│                           (regenerate via scripts/90_generate_croissant.py)
 ├── data/
 │   ├── raw/                BigSolDB v2.1 (place archive here — see data/raw/README.md)
 │   ├── interim/            Intermediate per-phase artifacts (canonicalized,
@@ -24,6 +26,7 @@ sc3/
 │   ├── sc3/                Final tiered dataset (gold / silver / bronze)
 │   └── splits/             Benchmark splits (train / eval / OOD)
 └── scripts/                Numbered curation pipeline (Phase 0 → Phase 8)
+                            plus 90_generate_croissant.py (metadata)
 ```
 
 ---
@@ -45,6 +48,7 @@ Re-running a phase from scratch reproduces every downstream artifact bit-for-bit
 | 6 — Tiers | `60_tiers.py` | Build SC³ gold / silver / bronze tiers per **D-15**. |
 | 7 — Splits | `70_splits.py` | Construct benchmark train / eval / OOD splits. |
 | 8 — Metrics | `80_metrics.py`, `81_multimodality.py` | Metric definitions (importable module) + motivating analysis. |
+| 9 — Metadata | `90_generate_croissant.py` | Build/refresh the Croissant 1.0 + RAI 1.0 metadata file (`croissant.json`). |
 
 The full decision log — every `D-XX` referenced above — lives in
 [`DECISIONS.md`](DECISIONS.md).
@@ -130,3 +134,63 @@ No GPU is required for any step in this directory.
 - This directory is **data + reproducible curation only**. No model
   predictions, training logs, or evaluation tables live here; those belong
   to the modeling SDK in `SUBMISSION/SDK/`.
+
+---
+
+## Croissant metadata
+
+`croissant.json` ships a self-contained MLCommons Croissant 1.0 + RAI 1.0
+description of every shipped artifact (the three tier CSVs, the long-form
+tier-pair table, and the three benchmark splits). The file conforms to:
+
+- `http://mlcommons.org/croissant/1.0` — Croissant core spec.
+- `http://mlcommons.org/croissant/RAI/1.0` — Responsible-AI extension. All
+  20 RAI fields (`rai:dataCollection`, `rai:dataBiases`, `rai:dataLimitations`,
+  …, `rai:dataReleaseMaintenancePlan`) are populated; fields that are
+  not applicable to a literature-curation pipeline (annotators,
+  demographics, annotation platforms) are explicitly marked
+  *"Not applicable"* with a one-line justification rather than left blank.
+
+For each shipped CSV, the metadata records the byte size, a SHA-256
+checksum computed at build time, the encoding (`text/csv`), and a
+per-column field map with `dataType` (`sc:Text`, `sc:Float`, `sc:Integer`,
+`sc:Boolean`).
+
+### Regenerating
+
+```bash
+# default URL is hard-coded for the anonymized repo SC3-0371; override
+# either of these env vars to retarget a different anonymized URL:
+SC3_ANON_REPO_URL=https://anonymous.4open.science/r/SC3-0371 \
+SC3_DATASET_HOMEPAGE=https://anonymous.4open.science/status/SC3-0371 \
+    python scripts/90_generate_croissant.py
+```
+
+The generator recomputes file sizes and SHA-256 hashes from the local CSVs
+on every run, so it stays consistent with whatever rebuild of the dataset
+the curator just ran. It uses only the Python standard library (no
+`mlcroissant` dependency required).
+
+### Validating
+
+The Croissant editor and checker live online and accept either an uploaded
+file or a URL pointing to the metadata file:
+
+- Croissant Checker — <https://huggingface.co/spaces/mlcommons/croissant-checker>
+- Croissant Editor —  <https://huggingface.co/spaces/MLCommons/croissant-editor>
+
+Once the anonymous repo is live at
+`https://anonymous.4open.science/r/SC3-0371/`, paste
+`https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/croissant.json`
+into the checker. Locally, on Python ≥ 3.10:
+
+```bash
+pip install mlcroissant
+mlcroissant validate --jsonld croissant.json
+```
+
+> **Note for the camera-ready release.** When the dataset moves from the
+> anonymous review URL to its public home (CC-BY-4.0 on Hugging Face
+> Datasets or Zenodo per `rai:dataReleaseMaintenancePlan`), simply rerun
+> the generator with the new URL exported via `SC3_ANON_REPO_URL` /
+> `SC3_DATASET_HOMEPAGE` and re-validate.
