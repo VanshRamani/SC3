@@ -159,10 +159,10 @@ per-column field map with `dataType` (`sc:Text`, `sc:Float`, `sc:Integer`,
 ### Regenerating
 
 ```bash
-# default URL is hard-coded for the anonymized repo SC3-0371; override
-# either of these env vars to retarget a different anonymized URL:
-SC3_ANON_REPO_URL=https://anonymous.4open.science/r/SC3-0371 \
-SC3_DATASET_HOMEPAGE=https://anonymous.4open.science/status/SC3-0371 \
+# defaults target the anonymous review repo SC3-Benchmark; override via env
+# vars to retarget (e.g., for the camera-ready public release):
+SC3_ANON_REPO_URL=https://anonymous.4open.science/r/SC3-Benchmark \
+SC3_DATASET_HOMEPAGE=https://anonymous.4open.science/r/SC3-Benchmark \
     python scripts/90_generate_croissant.py
 ```
 
@@ -179,9 +179,9 @@ file or a URL pointing to the metadata file:
 - Croissant Checker — <https://huggingface.co/spaces/mlcommons/croissant-checker>
 - Croissant Editor —  <https://huggingface.co/spaces/MLCommons/croissant-editor>
 
-Once the anonymous repo is live at
-`https://anonymous.4open.science/r/SC3-0371/`, paste
-`https://anonymous.4open.science/r/SC3-0371/SUBMISSION/sc3/croissant.json`
+The anonymous repo is live at
+`https://anonymous.4open.science/r/SC3-Benchmark/`. Paste
+`https://anonymous.4open.science/r/SC3-Benchmark/SUBMISSION/sc3/croissant.json`
 into the checker. Locally, on Python ≥ 3.10:
 
 ```bash

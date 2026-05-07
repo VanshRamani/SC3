@@ -34,12 +34,12 @@ OUTPUT_PATH = SC3_ROOT / "croissant.json"
 
 ANON_REPO_URL = os.environ.get(
     "SC3_ANON_REPO_URL",
-    "https://anonymous.4open.science/r/SC3-0371",
+    "https://anonymous.4open.science/r/SC3-Benchmark",
 ).rstrip("/")
 DATASET_HOMEPAGE = os.environ.get(
     "SC3_DATASET_HOMEPAGE",
-    "https://anonymous.4open.science/status/SC3-0371",
-)
+    "https://anonymous.4open.science/r/SC3-Benchmark",
+).rstrip("/")
 
 # ---------------------------------------------------------------------------
 # Field type vocabulary
@@ -351,14 +351,14 @@ def build_dataset() -> OrderedDict:
     )
 
     cite_as = (
-        r"@misc{sc3_anon_2026,"
-        r"  title  = {SC$^3$: Solubility Curation \& Consistency Corpus},"
-        r"  author = {Anonymous},"
-        r"  year   = {2026},"
-        r"  note   = {NeurIPS 2026 Datasets and Benchmarks Track (under review). "
-        r"Anonymous submission.},"
-        r"  url    = {" + DATASET_HOMEPAGE + r"}"
-        r"}"
+        "@misc{sc3_anon_2026,\n"
+        "  title  = {SC$^3$: Solubility Curation \\& Consistency Corpus},\n"
+        "  author = {Anonymous},\n"
+        "  year   = {2026},\n"
+        "  note   = {NeurIPS 2026 Datasets and Benchmarks Track (under "
+        "review). Anonymous submission.},\n"
+        "  url    = {" + DATASET_HOMEPAGE + "}\n"
+        "}"
     )
 
     rai = OrderedDict([
