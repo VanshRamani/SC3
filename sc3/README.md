@@ -183,9 +183,14 @@ file or a URL pointing to the metadata file:
 - Croissant Editor —  <https://huggingface.co/spaces/MLCommons/croissant-editor>
 
 The anonymous repo is live at
-`https://anonymous.4open.science/r/SC3-Benchmark/`. Paste
-`https://anonymous.4open.science/r/SC3-Benchmark/sc3/croissant.json`
-into the checker. Locally, on Python ≥ 3.10:
+`https://anonymous.4open.science/r/SC3-Benchmark/`. The Croissant validator
+needs the **raw-bytes endpoint**, not the human viewer URL — paste
+`https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/croissant.json`
+into the checker. (`anonymous.4open.science` serves an Angular SPA at
+the `/r/...` paths; only `/api/repo/<id>/file/...` returns raw bytes.
+The same convention is used for every `contentUrl` inside `croissant.json`,
+so `mlcroissant` and the validator can fetch the CSVs directly.)
+Locally, on Python ≥ 3.10:
 
 ```bash
 pip install mlcroissant

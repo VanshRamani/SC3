@@ -89,7 +89,7 @@
       "@id": "sc3_gold",
       "name": "sc3-gold",
       "description": "SC3 Gold tier: 335 (solute, solvent) pairs across 26 solvents, 4,507 measured-temperature rows. Pair-level inter-lab MAE <= 0.1 log S. Highest-confidence multi-source consensus rows; sigma is defined for 76.5% of rows. Decision D-15.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/sc3/gold.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/sc3/gold.csv",
       "encodingFormat": "text/csv",
       "contentSize": "445030 B",
       "sha256": "5537fcb8eae5d11fcb874ef911e49677a6050918d6b68a08e49fee8b6c018a69"
@@ -99,7 +99,7 @@
       "@id": "sc3_silver",
       "name": "sc3-silver",
       "description": "SC3 Silver tier: 400 pairs / 5,475 rows, pair-level MAE <= 0.2 log S. Superset of Gold (Gold subset Silver). Decision D-15.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/sc3/silver.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/sc3/silver.csv",
       "encodingFormat": "text/csv",
       "contentSize": "540127 B",
       "sha256": "3593961ab1a375fc386d243f6587471813bcbbe45ad10906301fd1129d19962b"
@@ -109,7 +109,7 @@
       "@id": "sc3_bronze",
       "name": "sc3-bronze",
       "description": "SC3 Bronze tier: 469 pairs / 6,331 rows, pair-level MAE <= 0.5 log S. Superset of Silver. Decision D-15.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/sc3/bronze.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/sc3/bronze.csv",
       "encodingFormat": "text/csv",
       "contentSize": "628848 B",
       "sha256": "81f41454ba494135a82241021ed936b16d379f6f01eed582d79e3aa44f663e4c"
@@ -119,7 +119,7 @@
       "@id": "sc3_tier_pairs",
       "name": "sc3-tier-pairs",
       "description": "Long-form tier-membership table: one row per tier-eligible (solute, solvent) pair (n=469), with pair-level statistics and boolean tier flags. Drives the per-pair tier assignments used by gold.csv / silver.csv / bronze.csv.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/sc3/tier_pairs.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/sc3/tier_pairs.csv",
       "encodingFormat": "text/csv",
       "contentSize": "46922 B",
       "sha256": "3c2af8ab350b230c9e69206bf552ff6c99da1c02a08d8a474223b4fbbc4d1963"
@@ -129,7 +129,7 @@
       "@id": "bench_train",
       "name": "bench-train",
       "description": "Benchmark training split. 61,403 rows, 1,144 solutes, 25 ID solvents, 6,840 (solute, solvent) pairs. Anti-leakage: every solute that appears in any tier (148 solutes) is excluded from training under all solvents. Decision D-16.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/splits/bench_train.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/splits/bench_train.csv",
       "encodingFormat": "text/csv",
       "contentSize": "7675898 B",
       "sha256": "dd2ab39addf7496319bc2213803d30cb7e60604035f68f1ed68c72a6e4eac735"
@@ -139,7 +139,7 @@
       "@id": "bench_eval",
       "name": "bench-eval",
       "description": "In-distribution evaluation split: 6,969 rows, 534 solutes, 25 ID solvents, 771 (solute, solvent) pairs. 10% of pairs per ID solvent held out at the pair level (seed 42). All temperatures of a held-out pair stay together. Decision D-16.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/splits/bench_eval.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/splits/bench_eval.csv",
       "encodingFormat": "text/csv",
       "contentSize": "865739 B",
       "sha256": "745923602fdfe86f339ef1288bd578de7cf2901f11babc19e5c4ca5d2e5d4b22"
@@ -149,7 +149,7 @@
       "@id": "bench_ood",
       "name": "bench-ood",
       "description": "Out-of-distribution split (unseen solvents): 11,940 rows, 586 solutes, 161 OOD solvents, 1,450 pairs. Stress test for solvent generalization. Decision D-16.",
-      "contentUrl": "https://anonymous.4open.science/r/SC3-Benchmark/sc3/data/splits/bench_ood.csv",
+      "contentUrl": "https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/data/splits/bench_ood.csv",
       "encodingFormat": "text/csv",
       "contentSize": "1557589 B",
       "sha256": "9a0692da70bd20152e1e955f179767d84de61bde9addeb0180bb982341aca727"

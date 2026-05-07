@@ -41,6 +41,26 @@ DATASET_HOMEPAGE = os.environ.get(
     "https://anonymous.4open.science/r/SC3-Benchmark",
 ).rstrip("/")
 
+
+def _file_base(repo_url: str) -> str:
+    """Derive the raw-download base URL from the human repo URL.
+
+    anonymous.4open.science serves the SPA viewer at ``/r/<id>/...`` and the
+    raw bytes at ``/api/repo/<id>/file/...``. The Croissant ``contentUrl``
+    must point at the latter so that ``mlcroissant``, the official
+    validator, and any HTTP client receive the real CSV instead of the
+    HTML viewer shell.
+    """
+    if "/r/" in repo_url:
+        return repo_url.replace("/r/", "/api/repo/", 1) + "/file"
+    return repo_url + "/file"
+
+
+FILE_DOWNLOAD_BASE = os.environ.get(
+    "SC3_FILE_DOWNLOAD_BASE",
+    _file_base(ANON_REPO_URL),
+).rstrip("/")
+
 # ---------------------------------------------------------------------------
 # Field type vocabulary
 # ---------------------------------------------------------------------------
@@ -288,7 +308,9 @@ def build_file_object(spec: dict[str, Any]) -> OrderedDict:
         ("@id", spec["id"]),
         ("name", spec["name"]),
         ("description", spec["description"]),
-        ("contentUrl", f"{ANON_REPO_URL}/sc3/{rel_path}"),
+        # See _file_base() comment: ANON_REPO_URL is the human/SPA URL;
+        # the per-file raw-bytes endpoint lives under /api/repo/<id>/file/.
+        ("contentUrl", f"{FILE_DOWNLOAD_BASE}/sc3/{rel_path}"),
         ("encodingFormat", "text/csv"),
         ("contentSize", f"{abs_path.stat().st_size} B"),
         ("sha256", _sha256(abs_path)),
@@ -691,8 +713,9 @@ def report_row_counts() -> None:
 
 def main() -> None:
     print(f"Generating Croissant metadata at {OUTPUT_PATH}")
-    print(f"  ANON_REPO_URL    = {ANON_REPO_URL}")
-    print(f"  DATASET_HOMEPAGE = {DATASET_HOMEPAGE}")
+    print(f"  ANON_REPO_URL        = {ANON_REPO_URL}")
+    print(f"  DATASET_HOMEPAGE     = {DATASET_HOMEPAGE}")
+    print(f"  FILE_DOWNLOAD_BASE   = {FILE_DOWNLOAD_BASE}")
     print()
     report_row_counts()
 
