@@ -1,8 +1,8 @@
-"""Generate ``SUBMISSION/sc3/croissant.json``.
+"""Generate ``sc3/croissant.json``.
 
 The output is a self-contained JSON-LD document that conforms to:
 
-* MLCommons Croissant 1.0  -- ``http://mlcommons.org/croissant/1.0``
+* MLCommons Croissant 1.1  -- ``http://mlcommons.org/croissant/1.1``
 * MLCommons RAI 1.0        -- ``http://mlcommons.org/croissant/RAI/1.0``
 
 It is intended for the SC3 anonymous NeurIPS submission.  We deliberately
@@ -229,6 +229,7 @@ CONTEXT = OrderedDict([
     ("conformsTo", "dct:conformsTo"),
     ("cr", "http://mlcommons.org/croissant/"),
     ("rai", "http://mlcommons.org/croissant/RAI/"),
+    ("prov", "http://www.w3.org/ns/prov#"),
     ("data", OrderedDict([("@id", "cr:data"), ("@type", "@json")])),
     ("dataType", OrderedDict([("@id", "cr:dataType"), ("@type", "@vocab")])),
     ("dct", "http://purl.org/dc/terms/"),
@@ -362,6 +363,44 @@ def build_dataset() -> OrderedDict:
     )
 
     rai = OrderedDict([
+        # ---- Provenance (PROV-O) ----
+        ("prov:wasDerivedFrom", OrderedDict([
+            ("@type", "sc:Dataset"),
+            ("@id", "https://doi.org/10.6084/m9.figshare.21118034"),
+            ("name", "BigSolDB v2.1"),
+            ("url", "https://doi.org/10.6084/m9.figshare.21118034"),
+            ("description",
+             "BigSolDB v2.1 (Krasnov et al., 2024). Open-source compilation "
+             "of solid-solubility measurements harvested from peer-reviewed "
+             "publications, distributed via figshare. Every SC3 row is a "
+             "filtered, canonicalized derivative of a row in this archive; "
+             "no other primary source is used."),
+        ])),
+
+        ("prov:wasGeneratedBy",
+         "Eight-phase deterministic curation pipeline (scripts/01..81; full "
+         "rationale in DECISIONS.md): "
+         "Phase 0 raw audit -> Phase 1 RDKit canonicalization (isomericSmiles="
+         "True; D-01) -> Phase 1.5 manual corrections (4 DOIs; D-12) -> Phase "
+         "2 cleaning waterfall (bad-DOI list, polymers, salts, MW <= 1000 Da, "
+         "logS in [-15, 2], intra-DOI rounding dedupe; D-03/D-07/D-08/D-09/"
+         "D-10) -> Phase 3 source integrity Stage A bit-exact copycats "
+         "(D-05) -> Phase 4 per-independence-group Apelblat / van't Hoff fits "
+         "(D-13) -> Phase 3B Stage B' interpolated copycats and Stage C' "
+         "reliability (D-14) -> Phase 5 aleatoric noise estimation epsilon_A "
+         "= 0.11 log S (D-13) -> Phase 6 nested tier construction "
+         "Gold/Silver/Bronze (D-15) -> Phase 7 solute-disjoint train/eval/OOD "
+         "splits (D-16) -> Phase 8 metric suite RMSE/MAE/MedAE/PS-RMSE/Z-RMSE "
+         "(D-17). Implementation: Python + RDKit + SciPy + scikit-learn + "
+         "pandas/numpy. No human annotators, no crowdsourcing, no synthetic "
+         "agents; the only manual elements are the bad-DOI list (D-03) and "
+         "four targeted DOI corrections (D-12), both audited against the "
+         "supporting evidence in DECISIONS.md. Curation v2 was conducted "
+         "between Q4 2025 and Q1 2026."),
+
+        ("rai:hasSyntheticData", False),
+
+        # ---- Existing RAI metadata ----
         ("rai:dataCollection",
          "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., 2024), "
          "an open-source compilation of solid-solubility measurements harvested "
@@ -555,7 +594,7 @@ def build_dataset() -> OrderedDict:
         ("@context", CONTEXT),
         ("@type", "sc:Dataset"),
         ("conformsTo", [
-            "http://mlcommons.org/croissant/1.0",
+            "http://mlcommons.org/croissant/1.1",
             "http://mlcommons.org/croissant/RAI/1.0",
         ]),
         ("name", "SC3"),
@@ -604,7 +643,7 @@ def build_dataset() -> OrderedDict:
 def assert_consistent(dataset: OrderedDict) -> None:
     """Light shape checks before writing -- catches obvious template errors."""
     assert dataset["@type"] == "sc:Dataset"
-    assert "http://mlcommons.org/croissant/1.0" in dataset["conformsTo"]
+    assert "http://mlcommons.org/croissant/1.1" in dataset["conformsTo"]
     assert "http://mlcommons.org/croissant/RAI/1.0" in dataset["conformsTo"]
 
     file_ids = {fo["@id"] for fo in dataset["distribution"]}
@@ -624,6 +663,12 @@ def assert_consistent(dataset: OrderedDict) -> None:
             )
 
     rai_required = {
+        # NeurIPS 2026 minimal RAI set
+        "rai:dataLimitations", "rai:dataBiases",
+        "rai:personalSensitiveInformation", "rai:dataUseCases",
+        "rai:dataSocialImpact", "rai:hasSyntheticData",
+        "prov:wasDerivedFrom", "prov:wasGeneratedBy",
+        # Extended RAI metadata also shipped
         "rai:dataCollection", "rai:dataCollectionType",
         "rai:dataCollectionMissingData", "rai:dataCollectionRawData",
         "rai:dataCollectionTimeframe", "rai:dataImputationProtocol",
@@ -631,8 +676,6 @@ def assert_consistent(dataset: OrderedDict) -> None:
         "rai:dataAnnotationProtocol", "rai:dataAnnotationPlatform",
         "rai:dataAnnotationAnalysis", "rai:annotationsPerItem",
         "rai:annotatorDemographics", "rai:machineAnnotationTools",
-        "rai:dataBiases", "rai:dataUseCases", "rai:dataLimitations",
-        "rai:dataSocialImpact", "rai:personalSensitiveInformation",
         "rai:dataReleaseMaintenancePlan",
     }
     missing = rai_required - dataset.keys()
