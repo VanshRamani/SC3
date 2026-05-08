@@ -388,15 +388,25 @@ def build_dataset() -> OrderedDict:
         # ---- Provenance (PROV-O) ----
         ("prov:wasDerivedFrom", OrderedDict([
             ("@type", "sc:Dataset"),
-            ("@id", "https://doi.org/10.6084/m9.figshare.21118034"),
-            ("name", "BigSolDB v2.1"),
-            ("url", "https://doi.org/10.6084/m9.figshare.21118034"),
+            ("@id", "https://doi.org/10.5281/zenodo.18552681"),
+            # `name` must match Croissant's [A-Za-z0-9_-]+ pattern (no spaces / dots).
+            ("name", "BigSolDB-v2-1"),
+            ("alternateName", "BigSolDB v2.1"),
+            ("version", "2.1"),
+            ("url", "https://doi.org/10.5281/zenodo.18552681"),
+            ("license", "https://creativecommons.org/licenses/by/4.0/"),
+            ("datePublished", "2026-02-09"),
+            ("citation",
+             "Krasnov, L., Malikov, D., Kiseleva, M. et al. BigSolDB 2.0, "
+             "dataset of solubility values for organic compounds in different "
+             "solvents at various temperatures. Sci Data 12, 1236 (2025). "
+             "https://doi.org/10.1038/s41597-025-05559-8"),
             ("description",
-             "BigSolDB v2.1 (Krasnov et al., 2024). Open-source compilation "
-             "of solid-solubility measurements harvested from peer-reviewed "
-             "publications, distributed via figshare. Every SC3 row is a "
-             "filtered, canonicalized derivative of a row in this archive; "
-             "no other primary source is used."),
+             "BigSolDB v2.1 (Krasnov et al., Sci Data 12, 1236 (2025)). "
+             "Open-source compilation of solid-solubility measurements "
+             "harvested from peer-reviewed publications. Every SC3 row is "
+             "a filtered, canonicalized derivative of a row in this "
+             "archive; no other primary source is used."),
         ])),
 
         ("prov:wasGeneratedBy",
@@ -424,10 +434,11 @@ def build_dataset() -> OrderedDict:
 
         # ---- Existing RAI metadata ----
         ("rai:dataCollection",
-         "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., 2024), "
+         "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., "
+         "Sci Data 12, 1236 (2025); https://doi.org/10.1038/s41597-025-05559-8), "
          "an open-source compilation of solid-solubility measurements harvested "
-         "from peer-reviewed publications and distributed via figshare "
-         "(https://doi.org/10.6084/m9.figshare.21118034). On top of the upstream "
+         "from peer-reviewed publications and distributed via Zenodo "
+         "(https://doi.org/10.5281/zenodo.18552681). On top of the upstream "
          "archive, SC3 applies (i) RDKit canonicalization preserving stereo and "
          "geometric isomerism (decision D-01 'Option D'); (ii) a manually-audited "
          "bad-DOI exclusion list jointly maintained with the BigSolDB v2.1 "
@@ -455,9 +466,10 @@ def build_dataset() -> OrderedDict:
          "or salt/mixture solutes are dropped, not imputed (D-07/D-08/D-09)."),
 
         ("rai:dataCollectionRawData",
-         "BigSolDB v2.1 (Krasnov et al., 'BigSolDB: solubility dataset of "
-         "compounds in organic solvents and water in a wide range of "
-         "temperatures', 2024; figshare DOI 10.6084/m9.figshare.21118034). "
+         "BigSolDB v2.1 (Krasnov, Malikov, Kiseleva et al., 'BigSolDB 2.0, "
+         "dataset of solubility values for organic compounds in different "
+         "solvents at various temperatures', Sci Data 12, 1236 (2025); "
+         "Zenodo DOI 10.5281/zenodo.18552681). "
          "SC3 does not redistribute the raw BigSolDB rows. Reviewers and "
          "downstream users must download the upstream archive separately and "
          "re-run scripts/01..81 to regenerate the SC3 artifacts (the pipeline "
