@@ -89,7 +89,7 @@ TIER_FIELDS = [
      "Consensus log10 solubility computed as the mean of fitted Apelblat / "
      "van't Hoff curves (one per non-Hall-of-Shame independence group whose fit "
      "range covers Temperature_K). Units follow D-15 (decadic log mole-fraction "
-     "or molality, consistent with the upstream BigSolDB v2.1 column)."),
+     "or molality, consistent with the upstream BigSolDB 2.0 column)."),
     ("sigma", FLOAT,
      "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, "
      "floored at 0.012 log S. NaN when only one independence group's fit covers "
@@ -138,7 +138,7 @@ BENCH_FIELDS = [
      "consensus value."),
     ("Solubility(mole_fraction)", FLOAT,
      "Solubility expressed as a mole fraction, as carried through from "
-     "BigSolDB v2.1."),
+     "BigSolDB 2.0."),
     ("MW", FLOAT,
      "Molecular weight (g/mol) of the solute, computed via "
      "rdkit.Chem.Descriptors.MolWt on Solute_Canon."),
@@ -358,7 +358,8 @@ def build_dataset() -> OrderedDict:
     description = (
         "SC3 (Solubility Curation & Consistency Corpus) is a tiered, "
         "thermodynamically-consistent multi-solvent solid-solubility dataset "
-        "derived from BigSolDB v2.1 (Krasnov et al., 2024). The corpus ships "
+        "derived from BigSolDB 2.0 (Krasnov et al., Sci Data 12, 1236 (2025)). "
+        "The corpus ships "
         "three nested quality tiers -- Gold (335 pairs / 4,507 measurements, "
         "pair-level inter-lab MAE <= 0.1 log S), Silver (400 / 5,475, MAE "
         "<= 0.2), and Bronze (469 / 6,331, MAE <= 0.5) -- plus three solute-"
@@ -388,21 +389,21 @@ def build_dataset() -> OrderedDict:
         # ---- Provenance (PROV-O) ----
         ("prov:wasDerivedFrom", OrderedDict([
             ("@type", "sc:Dataset"),
-            ("@id", "https://doi.org/10.5281/zenodo.18552681"),
+            ("@id", "https://doi.org/10.5281/zenodo.15094979"),
             # `name` must match Croissant's [A-Za-z0-9_-]+ pattern (no spaces / dots).
-            ("name", "BigSolDB-v2-1"),
-            ("alternateName", "BigSolDB v2.1"),
-            ("version", "2.1"),
-            ("url", "https://doi.org/10.5281/zenodo.18552681"),
+            ("name", "BigSolDB-v2-0"),
+            ("alternateName", "BigSolDB 2.0"),
+            ("version", "2.0"),
+            ("url", "https://doi.org/10.5281/zenodo.15094979"),
             ("license", "https://creativecommons.org/licenses/by/4.0/"),
-            ("datePublished", "2026-02-09"),
+            ("datePublished", "2025-03-29"),
             ("citation",
              "Krasnov, L., Malikov, D., Kiseleva, M. et al. BigSolDB 2.0, "
              "dataset of solubility values for organic compounds in different "
              "solvents at various temperatures. Sci Data 12, 1236 (2025). "
              "https://doi.org/10.1038/s41597-025-05559-8"),
             ("description",
-             "BigSolDB v2.1 (Krasnov et al., Sci Data 12, 1236 (2025)). "
+             "BigSolDB 2.0 (Krasnov et al., Sci Data 12, 1236 (2025)). "
              "Open-source compilation of solid-solubility measurements "
              "harvested from peer-reviewed publications. Every SC3 row is "
              "a filtered, canonicalized derivative of a row in this "
@@ -434,14 +435,14 @@ def build_dataset() -> OrderedDict:
 
         # ---- Existing RAI metadata ----
         ("rai:dataCollection",
-         "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., "
+         "SC3 is a curated derivative of BigSolDB 2.0 (Krasnov et al., "
          "Sci Data 12, 1236 (2025); https://doi.org/10.1038/s41597-025-05559-8), "
          "an open-source compilation of solid-solubility measurements harvested "
          "from peer-reviewed publications and distributed via Zenodo "
-         "(https://doi.org/10.5281/zenodo.18552681). On top of the upstream "
+         "(https://doi.org/10.5281/zenodo.15094979). On top of the upstream "
          "archive, SC3 applies (i) RDKit canonicalization preserving stereo and "
          "geometric isomerism (decision D-01 'Option D'); (ii) a manually-audited "
-         "bad-DOI exclusion list jointly maintained with the BigSolDB v2.1 "
+         "bad-DOI exclusion list jointly maintained with the BigSolDB 2.0 "
          "co-maintainer (D-03, D-12); (iii) two-stage copycat detection -- "
          "bit-exact (D-05 Stage A) and interpolated MAE-based (D-14 Stage B'); "
          "(iv) per-independence-group Apelblat / van't Hoff fits (D-13); "
@@ -466,10 +467,10 @@ def build_dataset() -> OrderedDict:
          "or salt/mixture solutes are dropped, not imputed (D-07/D-08/D-09)."),
 
         ("rai:dataCollectionRawData",
-         "BigSolDB v2.1 (Krasnov, Malikov, Kiseleva et al., 'BigSolDB 2.0, "
+         "BigSolDB 2.0 (Krasnov, Malikov, Kiseleva et al., 'BigSolDB 2.0, "
          "dataset of solubility values for organic compounds in different "
          "solvents at various temperatures', Sci Data 12, 1236 (2025); "
-         "Zenodo DOI 10.5281/zenodo.18552681). "
+         "Zenodo DOI 10.5281/zenodo.15094979). "
          "SC3 does not redistribute the raw BigSolDB rows. Reviewers and "
          "downstream users must download the upstream archive separately and "
          "re-run scripts/01..81 to regenerate the SC3 artifacts (the pipeline "
@@ -478,7 +479,7 @@ def build_dataset() -> OrderedDict:
 
         ("rai:dataCollectionTimeframe",
          "Curation v2 was conducted between Q4 2025 and Q1 2026. The underlying "
-         "BigSolDB v2.1 source measurements are drawn from peer-reviewed "
+         "BigSolDB 2.0 source measurements are drawn from peer-reviewed "
          "publications dating up to 2025."),
 
         ("rai:dataImputationProtocol",
@@ -613,7 +614,7 @@ def build_dataset() -> OrderedDict:
          "SC3 v2 is the version submitted to NeurIPS 2026 Datasets & "
          "Benchmarks for review. The reproducible curation pipeline "
          "(scripts/01..81) is shipped alongside the dataset and regenerates "
-         "every artifact bit-exactly from BigSolDB v2.1. Future versions "
+         "every artifact bit-exactly from BigSolDB 2.0. Future versions "
          "(v3+) are planned to track upstream BigSolDB releases; each version "
          "will retain the full DECISIONS.md log with date stamps. Anonymous "
          "review repository for double-blind purposes only -- by the "
