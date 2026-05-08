@@ -181,7 +181,7 @@ def main():
         f.write(
             "\nNote: the source files were already pair-level cleaned in\n"
             "`Solubility/sc3-benchmark/Additional_Experiments/transfer_v2/`.\n"
-            "Any non-zero overlap here would mean that the new SC3 v2 splits\n"
+            "Any non-zero overlap here would mean that the SC3 v1 splits\n"
             "(gold/silver/bronze) introduced pairs that were not present in the\n"
             "old test-tier definition used for the original cleaning.  Those are\n"
             "removed in the trainer at load time (`load_combisolv(filter_pairs=...)`).\n"

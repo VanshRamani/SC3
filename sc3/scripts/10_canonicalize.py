@@ -7,10 +7,10 @@ Rules (per decision D-01 on 2026-04-17):
            stripping.  Every stereoisomer in BigSolDB is kept distinct.
   Solvent: plain canonical (isomericSmiles=True).
 
-Rationale.  Option C's empirical audit (scripts/11_merge_audit.py) showed
-10 of 15 Option-C merge groups disagreeing by 0.3–1.3 log S at matched
-(solvent, T) — 5–20× the aleatoric floor — so chirality stripping destroys
-real variance we cannot recover.  See DECISIONS.md §D-01.
+Rationale.  The empirical audit (scripts/11_merge_audit.py) showed
+10 of 15 chirality-stripped merge groups disagreeing by 0.3-1.3 log S at
+matched (solvent, T), so chirality stripping destroys real variance we
+cannot recover.
 
 Implementation: just MolToSmiles(mol, isomericSmiles=True) on both sides.
 

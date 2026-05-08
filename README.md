@@ -22,7 +22,6 @@ curation pipeline produces, but neither imports the other.
 | If you want to …                                                    | Read this                                   |
 |---------------------------------------------------------------------|---------------------------------------------|
 | Understand the SC³ corpus and how it was built                      | [`sc3/README.md`](sc3/README.md)            |
-| See every curation rule and design decision                         | [`sc3/DECISIONS.md`](sc3/DECISIONS.md)      |
 | Inspect the shipped tier files (gold / silver / bronze)             | `sc3/data/sc3/`                             |
 | Inspect the benchmark splits (train / eval / OOD)                   | `sc3/data/splits/`                          |
 | Learn the methods catalogue and how training is dispatched          | [`SDK/README.md`](SDK/README.md)            |
@@ -37,9 +36,8 @@ curation pipeline produces, but neither imports the other.
 ```
 sc3/
 ├── README.md                  Pipeline phases, shipped artifacts, reproduction
-├── DECISIONS.md               Per-decision rationale ("D-XX" rules)
 ├── data/
-│   ├── raw/                   BigSolDB v2.1 — placed by the user (see data/raw/README.md)
+│   ├── raw/                   BigSolDB 2.0 — placed by the user (see data/raw/README.md)
 │   ├── interim/               Per-phase checkpoints (canonicalized → cleaned → ...)
 │   ├── sc3/                   Final tiered dataset (gold/silver/bronze)
 │   └── splits/                bench_train / bench_eval / bench_ood
@@ -107,7 +105,7 @@ paper end-to-end.
 #    method-specific extras are listed in SDK/README.md).
 pip install -r SDK/requirements.txt
 
-# 2. Build the SC3 dataset from the raw BigSolDB v2.1 archive.
+# 2. Build the SC3 dataset from the raw BigSolDB 2.0 archive.
 #    See sc3/README.md and sc3/data/raw/README.md for the upstream source.
 cd sc3
 python scripts/01_raw_audit.py
@@ -134,14 +132,13 @@ it is a tree, a descriptor MLP, a GNN, or an external baseline.
 
 * **Splits** are named `train`, `eval`, `ood`, plus the consensus tiers
   `sc3_gold`, `sc3_silver`, `sc3_bronze`. Definitions live in
-  `sc3/scripts/70_splits.py` and `sc3/DECISIONS.md` (D-15, D-16).
+  `sc3/scripts/70_splits.py`.
 * **Target column** is `LogS` = log₁₀(mole fraction).
 * **Default seed set** is `[42, 101, 123, 456, 789]`
   (`SDK/sc3_bench/registry.py: DEFAULT_SEEDS`).
 * **Metric suite** (`SDK/sc3_bench/evaluate.py`): RMSE, MAE, R²,
   per-solvent RMSE (PS-RMSE), uncertainty-normalised RMSE (Z-RMSE).
-  Rationale for the non-standard variants is in `sc3/scripts/81_multimodality.py`
-  and the corresponding section of `sc3/DECISIONS.md`.
+  Rationale for the non-standard variants is in `sc3/scripts/81_multimodality.py`.
 * **License / citation** will be added on de-anonymization.
 
 ---
@@ -152,5 +149,5 @@ This repository was prepared for double-blind peer review. Author and
 institution names, internal infrastructure references, private
 correspondence, and external repository URLs have been removed. Some
 documentation passages refer generically to "the dataset curator" or
-"the BigSolDB v2.1 co-maintainer"; identifying details will be restored
+"the BigSolDB co-maintainer"; identifying details will be restored
 upon de-anonymization.

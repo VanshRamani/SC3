@@ -369,9 +369,8 @@ def build_dataset() -> OrderedDict:
         "measurement; consensus tier labels are the mean of independent "
         "Apelblat/van't Hoff fits, with per-point sigma calibrated from "
         "fit-level disagreement (floored at 0.012 log S). The empirical "
-        "aleatoric noise floor is epsilon_A = 0.11 log S. The full curation "
-        "decision log lives in DECISIONS.md and the reproducible pipeline is "
-        "shipped under scripts/01..81 (Phases 0-8)."
+        "aleatoric noise floor is epsilon_A = 0.11 log S. The reproducible "
+        "pipeline is shipped under scripts/01..81 (Phases 0-8)."
     )
 
     cite_as = (
@@ -411,8 +410,7 @@ def build_dataset() -> OrderedDict:
         ])),
 
         ("prov:wasGeneratedBy",
-         "Eight-phase deterministic curation pipeline (scripts/01..81; full "
-         "rationale in DECISIONS.md): "
+         "Eight-phase deterministic curation pipeline (scripts/01..81): "
          "Phase 0 raw audit -> Phase 1 RDKit canonicalization (isomericSmiles="
          "True; D-01) -> Phase 1.5 manual corrections (4 DOIs; D-12) -> Phase "
          "2 cleaning waterfall (bad-DOI list, polymers, salts, MW <= 1000 Da, "
@@ -427,8 +425,8 @@ def build_dataset() -> OrderedDict:
          "(D-17). Implementation: Python + RDKit + SciPy + scikit-learn + "
          "pandas/numpy. No human annotators, no crowdsourcing, no synthetic "
          "agents; the only manual elements are the bad-DOI list (D-03) and "
-         "four targeted DOI corrections (D-12), both audited against the "
-         "supporting evidence in DECISIONS.md. Curation v2 was conducted "
+         "four targeted DOI corrections (D-12), both audited against source "
+         "evidence during curation. Curation for this v1 release was conducted "
          "between Q4 2025 and Q1 2026."),
 
         ("rai:hasSyntheticData", False),
@@ -478,7 +476,8 @@ def build_dataset() -> OrderedDict:
          "scripts/03_targeted_checks.py)."),
 
         ("rai:dataCollectionTimeframe",
-         "Curation v2 was conducted between Q4 2025 and Q1 2026. The underlying "
+         "Curation for the v1 release was conducted between Q4 2025 and Q1 "
+         "2026. The underlying "
          "BigSolDB 2.0 source measurements are drawn from peer-reviewed "
          "publications dating up to 2025."),
 
@@ -488,8 +487,7 @@ def build_dataset() -> OrderedDict:
          "decisions D-07/D-08/D-09 are dropped rather than imputed."),
 
         ("rai:dataPreprocessingProtocol",
-         "Eight-phase deterministic pipeline (see DECISIONS.md and "
-         "scripts/01..81): "
+         "Eight-phase deterministic pipeline (scripts/01..81): "
          "Phase 0 audit -> Phase 1 SMILES canonicalization (RDKit "
          "isomericSmiles=True, no tautomer enumeration, no chirality stripping; "
          "D-01) -> Phase 1.5 manual corrections (4 DOIs, D-12) -> Phase 2 "
@@ -518,9 +516,8 @@ def build_dataset() -> OrderedDict:
          "Not applicable: SC3 is fully algorithmic curation. The two 'manual' "
          "elements -- the bad-DOI list (D-03) and the targeted corrections "
          "(D-12) -- are domain-expert review of automatically-flagged "
-         "candidates; both are recorded in DECISIONS.md with the supporting "
-         "evidence (residual analyses, co-maintainer audit log, "
-         "PubChem/CAS verification) cited inline."),
+         "candidates, supported by residual analyses, co-maintainer audit "
+         "evidence, and PubChem/CAS verification."),
 
         ("rai:dataAnnotationPlatform", "Not applicable (no annotation task)."),
         ("rai:dataAnnotationAnalysis", "Not applicable (no annotation task)."),
@@ -611,12 +608,11 @@ def build_dataset() -> OrderedDict:
          "categories are present at any phase of the pipeline."),
 
         ("rai:dataReleaseMaintenancePlan",
-         "SC3 v2 is the version submitted to NeurIPS 2026 Datasets & "
+         "SC3 v1 is the version submitted to NeurIPS 2026 Datasets & "
          "Benchmarks for review. The reproducible curation pipeline "
          "(scripts/01..81) is shipped alongside the dataset and regenerates "
          "every artifact bit-exactly from BigSolDB 2.0. Future versions "
-         "(v3+) are planned to track upstream BigSolDB releases; each version "
-         "will retain the full DECISIONS.md log with date stamps. Anonymous "
+         "are planned to track upstream BigSolDB releases. Anonymous "
          "review repository for double-blind purposes only -- by the "
          "camera-ready deadline, the dataset will be re-released publicly "
          "under CC-BY-4.0 on a stable archival platform (Hugging Face "
@@ -652,7 +648,7 @@ def build_dataset() -> OrderedDict:
         ]),
         ("license", "https://creativecommons.org/licenses/by/4.0/"),
         ("url", DATASET_HOMEPAGE),
-        ("version", "2.0"),
+        ("version", "1.0"),
         ("datePublished", "2026-05-07"),
         ("citeAs", cite_as),
         ("creator", OrderedDict([

@@ -14,7 +14,8 @@ which requires no interpolation.  Stages B + C need interpolation to catch
 copycat DOIs that don't share exact temperatures (and to rank reliability
 fairly against any peer group, not only peers that happen to overlap in T).
 
-See DECISIONS.md §D-15 for why interpolation is required.
+Interpolation is required because many duplicate/copycat sources report the
+same solute-solvent pair at nearby but non-identical temperatures.
 """
 from __future__ import annotations
 import json

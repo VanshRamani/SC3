@@ -1,7 +1,7 @@
 """
 Phase 6 — SC³ tier construction.
 
-Policy (DECISIONS.md §D-15):
+Policy:
   • Eligibility.  Every (solute, solvent) multi-source pair from Phase 5's
     HoS-excluded pool (n = 481 pairs).  Pairs whose groups include any
     Hall-of-Shame independence group are NOT tier-eligible (they are still

@@ -2,7 +2,7 @@
 
 This directory contains the curation pipeline and shipped data artifacts for
 the **SC³ benchmark**: a tiered, thermodynamically-consistent multi-solvent
-solubility dataset derived from BigSolDB v2.1.
+solubility dataset derived from BigSolDB 2.0.
 
 The pipeline is reproducible: starting from the raw archive, every script
 under `scripts/` is numbered by phase and produces a deterministic artifact
@@ -16,11 +16,10 @@ consumed by every method in the companion SDK (`../SDK/`).
 
 ```
 sc3/
-├── DECISIONS.md            Curation decision log (every "D-XX" rule)
 ├── croissant.json          MLCommons Croissant 1.1 + RAI 1.0 metadata
 │                           (regenerate via scripts/90_generate_croissant.py)
 ├── data/
-│   ├── raw/                BigSolDB v2.1 (place archive here — see data/raw/README.md)
+│   ├── raw/                BigSolDB 2.0 (place archive here — see data/raw/README.md)
 │   ├── interim/            Intermediate per-phase artifacts (canonicalized,
 │   │                       cleaned, copycat-flagged, Apelblat fits, ...)
 │   ├── sc3/                Final tiered dataset (gold / silver / bronze)
@@ -40,20 +39,15 @@ Re-running a phase from scratch reproduces every downstream artifact bit-for-bit
 | Phase | Script(s) | Purpose |
 |-------|-----------|---------|
 | 0 — Audit | `01_raw_audit.py`, `02_deep_audit.py`, `03_targeted_checks.py` | Sanity-check the raw archive: row counts, suspect DOIs, residual patterns. |
-| 1 — Canonicalize | `10_canonicalize.py`, `11_merge_audit.py`, `15_apply_manual_corrections.py` | Canonicalize SMILES under decision **D-01** (Option D); audit every merge group; apply manual corrections from the domain expert. |
+| 1 — Canonicalize | `10_canonicalize.py`, `11_merge_audit.py`, `15_apply_manual_corrections.py` | Canonicalize SMILES under the submitted curation policy; audit every merge group; apply manual corrections from the domain expert. |
 | 2 — Clean | `20_clean.py` | Cleaning waterfall (units, duplicates, malformed rows, temperature ranges). |
 | 3 — Source integrity | `30_source_integrity.py`, `45_source_integrity_interp.py`, `55_threshold_sensitivity.py` | Detect bit-exact and gray-zone copycats; rank DOIs by reliability. |
 | 4 — Thermodynamic fits | `40_apelblat.py` | Per-(solute, solvent, group) Apelblat / van't Hoff fits for interpolation. |
-| 5 — Aleatoric limit | `50_aleatoric.py` | Estimate the irreducible aleatoric noise floor (D-12 / D-14). |
-| 6 — Tiers | `60_tiers.py` | Build SC³ gold / silver / bronze tiers per **D-15**. |
+| 5 — Aleatoric limit | `50_aleatoric.py` | Estimate the irreducible aleatoric noise floor. |
+| 6 — Tiers | `60_tiers.py` | Build SC³ gold / silver / bronze tiers. |
 | 7 — Splits | `70_splits.py` | Construct benchmark train / eval / OOD splits. |
 | 8 — Metrics | `80_metrics.py`, `81_multimodality.py` | Metric definitions (importable module) + motivating analysis. |
 | 9 — Metadata | `90_generate_croissant.py` | Build/refresh the Croissant 1.1 + RAI 1.0 metadata file (`croissant.json`). |
-
-The full decision log — every `D-XX` referenced above — lives in
-[`DECISIONS.md`](DECISIONS.md).
-
----
 
 ## Shipped artifacts
 
@@ -70,13 +64,13 @@ The benchmark consumers in `../SDK/` read from:
 | `data/splits/bench_eval.csv` | eval | In-distribution evaluation rows. |
 | `data/splits/bench_ood.csv` | OOD | Held-out held-out solute and held-out solvent rows. |
 
-Column conventions are documented in `DECISIONS.md` and asserted in `80_metrics.py`.
+Column conventions are asserted in `80_metrics.py`.
 
 ---
 
 ## Reproducing from raw
 
-1. Place the BigSolDB v2.1 archive under `data/raw/bigsoldb_v2.1/` (see
+1. Place the BigSolDB 2.0 archive under `data/raw/bigsoldb_v2.1/` (see
    `data/raw/README.md`).
 2. Run the phases in order:
    ```bash
@@ -125,10 +119,6 @@ No GPU is required for any step in this directory.
 
 ## Notes for reviewers
 
-- Every non-trivial design choice in this pipeline is logged in `DECISIONS.md`
-  with a date stamp and rationale. Where a manual correction was applied
-  (Phase 1.5), the source (e.g., expert annotation transcript) is cited in
-  the decision entry.
 - Intermediate artifacts in `data/interim/` are checkpoints — they let you
   jump into the pipeline at any phase without re-running upstream steps.
 - This directory is **data + reproducible curation only**. No model

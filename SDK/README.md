@@ -255,7 +255,7 @@ defaults (each method's source file documents the defaults inline).
 * **Splits**: `train` / `eval` / `ood` / `sc3_gold` / `sc3_silver` /
   `sc3_bronze` — defined and produced by `../sc3/scripts/70_splits.py`.
 * **Target**: `LogS` (decadic log-mole-fraction or molality solubility,
-  per the column convention in `../sc3/DECISIONS.md`).
+  following the column convention used in `../sc3/data/splits/`).
 * **Seeds**: the canonical seed set is `[42, 101, 123, 456, 789]`
   (`registry.DEFAULT_SEEDS`).
 * **Metrics**: `evaluate.compute_metrics` returns RMSE, MAE, R², plus
