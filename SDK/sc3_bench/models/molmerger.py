@@ -2,7 +2,7 @@
 MolMerger: GNN with Gasteiger charge-based graph merging for solubility prediction.
 
 Ramani & Karmakar, arXiv 2402.11340 / J. Chem. Theory Comput. 2024.
-GitHub: (repository link withheld for anonymous review)
+GitHub: https://github.com/VanshRamani/Molmerger-Solubility-Prediction
 
 Core idea: merge solute + solvent into a single graph by adding two virtual
 "interaction bonds" between the most electron-dense atom in solute and the

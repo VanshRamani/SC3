@@ -2,7 +2,7 @@
 
 This directory contains the curation pipeline and shipped data artifacts for
 the **SC³ benchmark**: a tiered, thermodynamically-consistent multi-solvent
-solubility dataset derived from BigSolDB 2.0.
+solubility dataset derived from BigSolDB v2.1.
 
 The pipeline is reproducible: starting from the raw archive, every script
 under `scripts/` is numbered by phase and produces a deterministic artifact
@@ -19,7 +19,7 @@ sc3/
 ├── croissant.json          MLCommons Croissant 1.1 + RAI 1.0 metadata
 │                           (regenerate via scripts/90_generate_croissant.py)
 ├── data/
-│   ├── raw/                BigSolDB 2.0 (place archive here — see data/raw/README.md)
+│   ├── raw/                BigSolDB v2.1 (place archive here — see data/raw/README.md)
 │   ├── interim/            Intermediate per-phase artifacts (canonicalized,
 │   │                       cleaned, copycat-flagged, Apelblat fits, ...)
 │   ├── sc3/                Final tiered dataset (gold / silver / bronze)
@@ -70,7 +70,7 @@ Column conventions are asserted in `80_metrics.py`.
 
 ## Reproducing from raw
 
-1. Place the BigSolDB 2.0 archive under `data/raw/bigsoldb_v2.1/` (see
+1. Place the BigSolDB v2.1 archive under `data/raw/bigsoldb_v2.1/` (see
    `data/raw/README.md`).
 2. Run the phases in order:
    ```bash
@@ -152,11 +152,9 @@ per-column field map with `dataType` (`sc:Text`, `sc:Float`, `sc:Integer`,
 ### Regenerating
 
 ```bash
-# defaults target the anonymous review repo SC3-Benchmark; override via env
-# vars to retarget (e.g., for the camera-ready public release):
-SC3_ANON_REPO_URL=https://anonymous.4open.science/r/SC3-Benchmark \
-SC3_DATASET_HOMEPAGE=https://anonymous.4open.science/r/SC3-Benchmark \
-    python scripts/90_generate_croissant.py
+# defaults target https://github.com/VanshRamani/SC3 (branch main); override
+# via SC3_REPO_URL / SC3_REPO_BRANCH / SC3_DATASET_HOMEPAGE to retarget a fork:
+python scripts/90_generate_croissant.py
 ```
 
 The generator recomputes file sizes and SHA-256 hashes from the local CSVs
@@ -172,14 +170,11 @@ file or a URL pointing to the metadata file:
 - Croissant Checker — <https://huggingface.co/spaces/mlcommons/croissant-checker>
 - Croissant Editor —  <https://huggingface.co/spaces/MLCommons/croissant-editor>
 
-The anonymous repo is live at
-`https://anonymous.4open.science/r/SC3-Benchmark/`. The Croissant validator
-needs the **raw-bytes endpoint**, not the human viewer URL — paste
-`https://anonymous.4open.science/api/repo/SC3-Benchmark/file/sc3/croissant.json`
-into the checker. (`anonymous.4open.science` serves an Angular SPA at
-the `/r/...` paths; only `/api/repo/<id>/file/...` returns raw bytes.
-The same convention is used for every `contentUrl` inside `croissant.json`,
-so `mlcroissant` and the validator can fetch the CSVs directly.)
+The validator needs the **raw-bytes URL**, not the GitHub page — paste
+`https://raw.githubusercontent.com/VanshRamani/SC3/main/sc3/croissant.json`
+into the checker. Every `contentUrl` inside `croissant.json` uses the same
+`raw.githubusercontent.com` form, so `mlcroissant` and the validator can
+fetch the CSVs directly.
 Locally, on Python ≥ 3.10:
 
 ```bash
@@ -187,8 +182,6 @@ pip install mlcroissant
 mlcroissant validate --jsonld croissant.json
 ```
 
-> **Note for the camera-ready release.** When the dataset moves from the
-> anonymous review URL to its public home (CC-BY-4.0 on Hugging Face
-> Datasets or Zenodo per `rai:dataReleaseMaintenancePlan`), simply rerun
-> the generator with the new URL exported via `SC3_ANON_REPO_URL` /
-> `SC3_DATASET_HOMEPAGE` and re-validate.
+> **Moving the dataset.** If the data are mirrored elsewhere (e.g. an
+> archival Zenodo snapshot), rerun the generator with `SC3_REPO_URL` /
+> `SC3_DATASET_HOMEPAGE` pointing at the new home and re-validate.
