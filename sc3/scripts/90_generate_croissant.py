@@ -378,7 +378,7 @@ def build_dataset() -> OrderedDict:
 
     cite_as = (
         "@inproceedings{ramani2026sc3,\n"
-        "  title     = {{SC}$^3$: The Multi-Solvent Solubility Challenge and Benchmark},\n"
+        "  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},\n"
         "  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya "
         "and Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},\n"
         "  booktitle = {Advances in Neural Information Processing Systems "
