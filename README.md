@@ -1,6 +1,8 @@
 # SC³ — Benchmark & Modeling SDK
 
-This repository accompanies an anonymized paper submission. It ships
+This repository accompanies the NeurIPS 2026 Datasets & Benchmarks paper
+*SC³: A Multi-Solvent Solubility Challenge and Benchmark*
+(Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar). It ships
 **(i)** the SC³ benchmark dataset together with its full curation
 pipeline and **(ii)** a unified Python SDK for training and evaluating
 solubility-prediction models on that benchmark.
@@ -37,7 +39,7 @@ curation pipeline produces, but neither imports the other.
 sc3/
 ├── README.md                  Pipeline phases, shipped artifacts, reproduction
 ├── data/
-│   ├── raw/                   BigSolDB 2.0 — placed by the user (see data/raw/README.md)
+│   ├── raw/                   BigSolDB v2.1 — placed by the user (see data/raw/README.md)
 │   ├── interim/               Per-phase checkpoints (canonicalized → cleaned → ...)
 │   ├── sc3/                   Final tiered dataset (gold/silver/bronze)
 │   └── splits/                bench_train / bench_eval / bench_ood
@@ -82,9 +84,8 @@ the SDK has no other implicit dependency on `sc3/`.
 
 ## What is shipped vs. what isn't
 
-This anonymous repository is **code, configuration, documentation, and
-the curated dataset only**. To keep the artifact reviewable and avoid
-leaking training history, the following are **not** included:
+This repository is **code, configuration, documentation, and
+the curated dataset only**. To keep it lightweight, the following are **not** included:
 
 * trained model weights (`*.pt`, `*.pth`, `*.cbm`, `*.pkl`),
 * feature caches (`feature_cache/`, intermediate `*.npz`),
@@ -105,7 +106,7 @@ paper end-to-end.
 #    method-specific extras are listed in SDK/README.md).
 pip install -r SDK/requirements.txt
 
-# 2. Build the SC3 dataset from the raw BigSolDB 2.0 archive.
+# 2. Build the SC3 dataset from the raw BigSolDB v2.1 archive.
 #    See sc3/README.md and sc3/data/raw/README.md for the upstream source.
 cd sc3
 python scripts/01_raw_audit.py
@@ -133,21 +134,52 @@ it is a tree, a descriptor MLP, a GNN, or an external baseline.
 * **Splits** are named `train`, `eval`, `ood`, plus the consensus tiers
   `sc3_gold`, `sc3_silver`, `sc3_bronze`. Definitions live in
   `sc3/scripts/70_splits.py`.
-* **Target column** is `LogS` = log₁₀(mole fraction).
+* **Target column** is `LogS` = log₁₀(S / (mol L⁻¹)), the molar solubility.
 * **Default seed set** is `[42, 101, 123, 456, 789]`
   (`SDK/sc3_bench/registry.py: DEFAULT_SEEDS`).
 * **Metric suite** (`SDK/sc3_bench/evaluate.py`): RMSE, MAE, R²,
   per-solvent RMSE (PS-RMSE), uncertainty-normalised RMSE (Z-RMSE).
   Rationale for the non-standard variants is in `sc3/scripts/81_multimodality.py`.
-* **License / citation** will be added on de-anonymization.
 
 ---
 
-## Anonymity notice
+## Citation
 
-This repository was prepared for double-blind peer review. Author and
-institution names, internal infrastructure references, private
-correspondence, and external repository URLs have been removed. Some
-documentation passages refer generically to "the dataset curator" or
-"the BigSolDB co-maintainer"; identifying details will be restored
-upon de-anonymization.
+If you use SC³, please cite the paper and the upstream BigSolDB dataset:
+
+```bibtex
+@inproceedings{ramani2026sc3,
+  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},
+  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and
+               Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},
+  booktitle = {Advances in Neural Information Processing Systems
+               (Datasets and Benchmarks Track)},
+  year      = {2026},
+  url       = {https://github.com/VanshRamani/SC3}
+}
+
+@article{krasnov2025bigsoldb,
+  title   = {BigSolDB 2.0, dataset of solubility values for organic compounds
+             in different solvents at various temperatures},
+  author  = {Krasnov, Lev and Malikov, Dmitry and Kiseleva, Marina and
+             Tatarin, Sergei V. and Sosnin, Sergey and Bezzubov, Stanislav},
+  journal = {Scientific Data},
+  volume  = {12},
+  pages   = {1236},
+  year    = {2025},
+  doi     = {10.1038/s41597-025-05559-8}
+}
+```
+
+SC³ is built on the BigSolDB v2.1 tabular release
+(<https://doi.org/10.5281/zenodo.18552681>, CC-BY-4.0).
+
+---
+
+## License
+
+* **Code** (`SDK/`, `sc3/scripts/`): MIT License — see [`LICENSE`](LICENSE).
+* **Data** (`sc3/data/`, `sc3/croissant.json`): Creative Commons
+  Attribution 4.0 International (CC-BY-4.0) — see
+  [`LICENSE-DATA`](LICENSE-DATA). The data are a curated derivative of
+  BigSolDB (CC-BY-4.0); please credit both SC³ and BigSolDB.

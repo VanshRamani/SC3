@@ -5,17 +5,17 @@ The output is a self-contained JSON-LD document that conforms to:
 * MLCommons Croissant 1.1  -- ``http://mlcommons.org/croissant/1.1``
 * MLCommons RAI 1.0        -- ``http://mlcommons.org/croissant/RAI/1.0``
 
-It is intended for the SC3 anonymous NeurIPS submission.  We deliberately
+It accompanies the public SC3 release (NeurIPS 2026 Datasets & Benchmarks).  We deliberately
 build the JSON-LD with the standard library only so the script runs on
 any Python >= 3.8 without pulling ``mlcroissant`` (which requires Python
 3.10+).
 
-Override the anon-repo URL via the ``SC3_ANON_REPO_URL`` env var, e.g.:
+Override the repository URL via the ``SC3_REPO_URL`` env var, e.g.:
 
-    SC3_ANON_REPO_URL=https://anonymous.4open.science/r/SC3-0371 \\
+    SC3_REPO_URL=https://github.com/<owner>/<fork> \\
         python scripts/90_generate_croissant.py
 
-Defaults match the URL the curator submitted to NeurIPS 2026 D&B.
+Defaults point at the public GitHub repository.
 """
 
 from __future__ import annotations
@@ -32,33 +32,35 @@ THIS_FILE = Path(__file__).resolve()
 SC3_ROOT = THIS_FILE.parent.parent
 OUTPUT_PATH = SC3_ROOT / "croissant.json"
 
-ANON_REPO_URL = os.environ.get(
-    "SC3_ANON_REPO_URL",
-    "https://anonymous.4open.science/r/SC3-Benchmark",
+REPO_URL = os.environ.get(
+    "SC3_REPO_URL",
+    "https://github.com/VanshRamani/SC3",
 ).rstrip("/")
-DATASET_HOMEPAGE = os.environ.get(
-    "SC3_DATASET_HOMEPAGE",
-    "https://anonymous.4open.science/r/SC3-Benchmark",
-).rstrip("/")
+REPO_BRANCH = os.environ.get("SC3_REPO_BRANCH", "v1.0")
+AUTHORS = [
+    "Vansh Ramani", "Har Ashish Arora", "Dhairya Kuchhal", "Sergei Tatarin",
+    "Lev Krasnov", "Sayan Ranu", "Tarak Karmakar",
+]
+DATASET_HOMEPAGE = os.environ.get("SC3_DATASET_HOMEPAGE", REPO_URL).rstrip("/")
 
 
 def _file_base(repo_url: str) -> str:
     """Derive the raw-download base URL from the human repo URL.
 
-    anonymous.4open.science serves the SPA viewer at ``/r/<id>/...`` and the
-    raw bytes at ``/api/repo/<id>/file/...``. The Croissant ``contentUrl``
-    must point at the latter so that ``mlcroissant``, the official
-    validator, and any HTTP client receive the real CSV instead of the
-    HTML viewer shell.
+    GitHub serves the HTML viewer at ``github.com/<owner>/<repo>`` and the
+    raw bytes at ``raw.githubusercontent.com/<owner>/<repo>/<branch>``. The
+    Croissant ``contentUrl`` must point at the latter so that
+    ``mlcroissant``, the official validator, and any HTTP client receive the
+    real CSV instead of the HTML page.
     """
-    if "/r/" in repo_url:
-        return repo_url.replace("/r/", "/api/repo/", 1) + "/file"
-    return repo_url + "/file"
+    if repo_url.startswith("https://github.com/"):
+        return repo_url.replace("https://github.com/", "https://raw.githubusercontent.com/", 1) + "/" + REPO_BRANCH
+    return repo_url
 
 
 FILE_DOWNLOAD_BASE = os.environ.get(
     "SC3_FILE_DOWNLOAD_BASE",
-    _file_base(ANON_REPO_URL),
+    _file_base(REPO_URL),
 ).rstrip("/")
 
 # ---------------------------------------------------------------------------
@@ -88,8 +90,8 @@ TIER_FIELDS = [
     ("LogS_consensus", FLOAT,
      "Consensus log10 solubility computed as the mean of fitted Apelblat / "
      "van't Hoff curves (one per non-Hall-of-Shame independence group whose fit "
-     "range covers Temperature_K). Units follow D-15 (decadic log mole-fraction "
-     "or molality, consistent with the upstream BigSolDB 2.0 column)."),
+     "range covers Temperature_K). Units: log10 of molar solubility (mol/L), "
+     "matching the upstream BigSolDB v2.1 LogS column."),
     ("sigma", FLOAT,
      "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, "
      "floored at 0.012 log S. NaN when only one independence group's fit covers "
@@ -133,12 +135,13 @@ BENCH_FIELDS = [
     ("Temperature_K", FLOAT,
      "Measurement temperature in Kelvin."),
     ("LogS", FLOAT,
-     "Decadic log solubility as reported in the cleaned BigSolDB row. "
+     "Decadic log molar solubility, log10(S / (mol/L)), as reported in the "
+     "cleaned BigSolDB row. "
      "Pre-tier construction; this is the per-measurement label, not the "
      "consensus value."),
     ("Solubility(mole_fraction)", FLOAT,
      "Solubility expressed as a mole fraction, as carried through from "
-     "BigSolDB 2.0."),
+     "BigSolDB v2.1."),
     ("MW", FLOAT,
      "Molecular weight (g/mol) of the solute, computed via "
      "rdkit.Chem.Descriptors.MolWt on Solute_Canon."),
@@ -308,7 +311,7 @@ def build_file_object(spec: dict[str, Any]) -> OrderedDict:
         ("@id", spec["id"]),
         ("name", spec["name"]),
         ("description", spec["description"]),
-        # See _file_base() comment: ANON_REPO_URL is the human/SPA URL;
+        # See _file_base() comment: REPO_URL is the human-facing URL;
         # the per-file raw-bytes endpoint lives under /api/repo/<id>/file/.
         ("contentUrl", f"{FILE_DOWNLOAD_BASE}/sc3/{rel_path}"),
         ("encodingFormat", "text/csv"),
@@ -358,7 +361,7 @@ def build_dataset() -> OrderedDict:
     description = (
         "SC3 (Solubility Curation & Consistency Corpus) is a tiered, "
         "thermodynamically-consistent multi-solvent solid-solubility dataset "
-        "derived from BigSolDB 2.0 (Krasnov et al., Sci Data 12, 1236 (2025)). "
+        "derived from BigSolDB v2.1 (Krasnov et al., Sci Data 12, 1236 (2025)). "
         "The corpus ships "
         "three nested quality tiers -- Gold (335 pairs / 4,507 measurements, "
         "pair-level inter-lab MAE <= 0.1 log S), Silver (400 / 5,475, MAE "
@@ -369,18 +372,20 @@ def build_dataset() -> OrderedDict:
         "measurement; consensus tier labels are the mean of independent "
         "Apelblat/van't Hoff fits, with per-point sigma calibrated from "
         "fit-level disagreement (floored at 0.012 log S). The empirical "
-        "aleatoric noise floor is epsilon_A = 0.11 log S. The reproducible "
+        "aleatoric noise floor is epsilon_A = 0.106 log S (matched inter-lab "
+        "RMSE 0.182 log S). The reproducible "
         "pipeline is shipped under scripts/01..81 (Phases 0-8)."
     )
 
     cite_as = (
-        "@misc{sc3_anon_2026,\n"
-        "  title  = {SC$^3$: Solubility Curation \\& Consistency Corpus},\n"
-        "  author = {Anonymous},\n"
-        "  year   = {2026},\n"
-        "  note   = {NeurIPS 2026 Datasets and Benchmarks Track (under "
-        "review). Anonymous submission.},\n"
-        "  url    = {" + DATASET_HOMEPAGE + "}\n"
+        "@inproceedings{ramani2026sc3,\n"
+        "  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},\n"
+        "  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya "
+        "and Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},\n"
+        "  booktitle = {Advances in Neural Information Processing Systems "
+        "(Datasets and Benchmarks Track)},\n"
+        "  year      = {2026},\n"
+        "  url       = {" + DATASET_HOMEPAGE + "}\n"
         "}"
     )
 
@@ -388,22 +393,22 @@ def build_dataset() -> OrderedDict:
         # ---- Provenance (PROV-O) ----
         ("prov:wasDerivedFrom", OrderedDict([
             ("@type", "sc:Dataset"),
-            ("@id", "https://doi.org/10.5281/zenodo.15094979"),
+            ("@id", "https://doi.org/10.5281/zenodo.18552681"),
             # `name` must match Croissant's [A-Za-z0-9_-]+ pattern (no spaces / dots).
-            ("name", "BigSolDB-v2-0"),
-            ("alternateName", "BigSolDB 2.0"),
-            ("version", "2.0"),
-            ("url", "https://doi.org/10.5281/zenodo.15094979"),
+            ("name", "BigSolDB-v2-1"),
+            ("alternateName", "BigSolDB v2.1"),
+            ("version", "2.1"),
+            ("url", "https://doi.org/10.5281/zenodo.18552681"),
             ("license", "https://creativecommons.org/licenses/by/4.0/"),
-            ("datePublished", "2025-03-29"),
+            ("datePublished", "2026-02-09"),
             ("citation",
              "Krasnov, L., Malikov, D., Kiseleva, M. et al. BigSolDB 2.0, "
              "dataset of solubility values for organic compounds in different "
              "solvents at various temperatures. Sci Data 12, 1236 (2025). "
              "https://doi.org/10.1038/s41597-025-05559-8"),
             ("description",
-             "BigSolDB 2.0 (Krasnov et al., Sci Data 12, 1236 (2025)). "
-             "Open-source compilation of solid-solubility measurements "
+             "BigSolDB v2.1 tabular release (Zenodo), described in Krasnov "
+             "et al., Sci Data 12, 1236 (2025). Open-source compilation of solid-solubility measurements "
              "harvested from peer-reviewed publications. Every SC3 row is "
              "a filtered, canonicalized derivative of a row in this "
              "archive; no other primary source is used."),
@@ -433,14 +438,14 @@ def build_dataset() -> OrderedDict:
 
         # ---- Existing RAI metadata ----
         ("rai:dataCollection",
-         "SC3 is a curated derivative of BigSolDB 2.0 (Krasnov et al., "
+         "SC3 is a curated derivative of BigSolDB v2.1 (Krasnov et al., "
          "Sci Data 12, 1236 (2025); https://doi.org/10.1038/s41597-025-05559-8), "
          "an open-source compilation of solid-solubility measurements harvested "
          "from peer-reviewed publications and distributed via Zenodo "
-         "(https://doi.org/10.5281/zenodo.15094979). On top of the upstream "
+         "(https://doi.org/10.5281/zenodo.18552681). On top of the upstream "
          "archive, SC3 applies (i) RDKit canonicalization preserving stereo and "
          "geometric isomerism (decision D-01 'Option D'); (ii) a manually-audited "
-         "bad-DOI exclusion list jointly maintained with the BigSolDB 2.0 "
+         "bad-DOI exclusion list jointly maintained with the BigSolDB "
          "co-maintainer (D-03, D-12); (iii) two-stage copycat detection -- "
          "bit-exact (D-05 Stage A) and interpolated MAE-based (D-14 Stage B'); "
          "(iv) per-independence-group Apelblat / van't Hoff fits (D-13); "
@@ -465,20 +470,21 @@ def build_dataset() -> OrderedDict:
          "or salt/mixture solutes are dropped, not imputed (D-07/D-08/D-09)."),
 
         ("rai:dataCollectionRawData",
-         "BigSolDB 2.0 (Krasnov, Malikov, Kiseleva et al., 'BigSolDB 2.0, "
+         "BigSolDB v2.1 (Krasnov, Malikov, Kiseleva et al., 'BigSolDB 2.0, "
          "dataset of solubility values for organic compounds in different "
          "solvents at various temperatures', Sci Data 12, 1236 (2025); "
-         "Zenodo DOI 10.5281/zenodo.15094979). "
-         "SC3 does not redistribute the raw BigSolDB rows. Reviewers and "
-         "downstream users must download the upstream archive separately and "
-         "re-run scripts/01..81 to regenerate the SC3 artifacts (the pipeline "
+         "v2.1 Zenodo DOI 10.5281/zenodo.18552681). "
+         "SC3 redistributes BigSolDB-derived rows (canonicalised, corrected "
+         "and cleaned, under BigSolDB's CC BY 4.0 licence) in data/interim/, "
+         "but not the original raw archive. To regenerate every artifact from "
+         "scratch, download the upstream archive and re-run scripts/01..81 (the pipeline "
          "is deterministic; row-by-row reproducibility is asserted by "
          "scripts/03_targeted_checks.py)."),
 
         ("rai:dataCollectionTimeframe",
          "Curation for the v1 release was conducted between Q4 2025 and Q1 "
          "2026. The underlying "
-         "BigSolDB 2.0 source measurements are drawn from peer-reviewed "
+         "BigSolDB v2.1 source measurements are drawn from peer-reviewed "
          "publications dating up to 2025."),
 
         ("rai:dataImputationProtocol",
@@ -611,13 +617,11 @@ def build_dataset() -> OrderedDict:
          "SC3 v1 is the version submitted to NeurIPS 2026 Datasets & "
          "Benchmarks for review. The reproducible curation pipeline "
          "(scripts/01..81) is shipped alongside the dataset and regenerates "
-         "every artifact bit-exactly from BigSolDB 2.0. Future versions "
-         "are planned to track upstream BigSolDB releases. Anonymous "
-         "review repository for double-blind purposes only -- by the "
-         "camera-ready deadline, the dataset will be re-released publicly "
-         "under CC-BY-4.0 on a stable archival platform (Hugging Face "
-         "Datasets or Zenodo, TBD), with the current anonymous URL "
-         "deprecated. The maintainers commit to keeping the public release "
+         "every artifact bit-exactly from BigSolDB v2.1. Future versions "
+         "are planned to track upstream BigSolDB releases. The dataset is "
+         "released publicly under CC-BY-4.0 at "
+         "https://github.com/VanshRamani/SC3; the anonymous review mirror "
+         "is deprecated. The maintainers commit to keeping the public release "
          "available for at least five years post-publication."),
     ])
 
@@ -650,14 +654,15 @@ def build_dataset() -> OrderedDict:
         ("url", DATASET_HOMEPAGE),
         ("version", "1.0"),
         ("datePublished", "2026-05-07"),
+        ("dateModified", "2026-11-04"),
         ("citeAs", cite_as),
-        ("creator", OrderedDict([
-            ("@type", "sc:Person"),
-            ("name", "Anonymous (NeurIPS 2026 D&B double-blind submission)"),
-        ])),
+        ("creator", [
+            OrderedDict([("@type", "sc:Person"), ("name", name)])
+            for name in AUTHORS
+        ]),
         ("publisher", OrderedDict([
             ("@type", "sc:Organization"),
-            ("name", "Anonymous"),
+            ("name", "Indian Institute of Technology Delhi"),
         ])),
         ("inLanguage", "en"),
         ("isLiveDataset", False),
@@ -722,7 +727,7 @@ def report_row_counts() -> None:
 
 def main() -> None:
     print(f"Generating Croissant metadata at {OUTPUT_PATH}")
-    print(f"  ANON_REPO_URL        = {ANON_REPO_URL}")
+    print(f"  REPO_URL             = {REPO_URL}")
     print(f"  DATASET_HOMEPAGE     = {DATASET_HOMEPAGE}")
     print(f"  FILE_DOWNLOAD_BASE   = {FILE_DOWNLOAD_BASE}")
     print()
