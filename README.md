@@ -134,7 +134,7 @@ it is a tree, a descriptor MLP, a GNN, or an external baseline.
 * **Splits** are named `train`, `eval`, `ood`, plus the consensus tiers
   `sc3_gold`, `sc3_silver`, `sc3_bronze`. Definitions live in
   `sc3/scripts/70_splits.py`.
-* **Target column** is `LogS` = log₁₀(mole fraction).
+* **Target column** is `LogS` = log₁₀(S / (mol L⁻¹)), the molar solubility.
 * **Default seed set** is `[42, 101, 123, 456, 789]`
   (`SDK/sc3_bench/registry.py: DEFAULT_SEEDS`).
 * **Metric suite** (`SDK/sc3_bench/evaluate.py`): RMSE, MAE, R²,

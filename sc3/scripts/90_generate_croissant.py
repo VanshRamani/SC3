@@ -36,7 +36,7 @@ REPO_URL = os.environ.get(
     "SC3_REPO_URL",
     "https://github.com/VanshRamani/SC3",
 ).rstrip("/")
-REPO_BRANCH = os.environ.get("SC3_REPO_BRANCH", "main")
+REPO_BRANCH = os.environ.get("SC3_REPO_BRANCH", "v1.0")
 AUTHORS = [
     "Vansh Ramani", "Har Ashish Arora", "Dhairya Kuchhal", "Sergei Tatarin",
     "Lev Krasnov", "Sayan Ranu", "Tarak Karmakar",
@@ -90,8 +90,8 @@ TIER_FIELDS = [
     ("LogS_consensus", FLOAT,
      "Consensus log10 solubility computed as the mean of fitted Apelblat / "
      "van't Hoff curves (one per non-Hall-of-Shame independence group whose fit "
-     "range covers Temperature_K). Units follow D-15 (decadic log mole-fraction "
-     "or molality, consistent with the upstream BigSolDB v2.1 column)."),
+     "range covers Temperature_K). Units: log10 of molar solubility (mol/L), "
+     "matching the upstream BigSolDB v2.1 LogS column."),
     ("sigma", FLOAT,
      "Sample standard deviation (ddof=1) of contributing fits at Temperature_K, "
      "floored at 0.012 log S. NaN when only one independence group's fit covers "
@@ -135,7 +135,8 @@ BENCH_FIELDS = [
     ("Temperature_K", FLOAT,
      "Measurement temperature in Kelvin."),
     ("LogS", FLOAT,
-     "Decadic log solubility as reported in the cleaned BigSolDB row. "
+     "Decadic log molar solubility, log10(S / (mol/L)), as reported in the "
+     "cleaned BigSolDB row. "
      "Pre-tier construction; this is the per-measurement label, not the "
      "consensus value."),
     ("Solubility(mole_fraction)", FLOAT,
@@ -473,9 +474,10 @@ def build_dataset() -> OrderedDict:
          "dataset of solubility values for organic compounds in different "
          "solvents at various temperatures', Sci Data 12, 1236 (2025); "
          "v2.1 Zenodo DOI 10.5281/zenodo.18552681). "
-         "SC3 does not redistribute the raw BigSolDB rows. Reviewers and "
-         "downstream users must download the upstream archive separately and "
-         "re-run scripts/01..81 to regenerate the SC3 artifacts (the pipeline "
+         "SC3 redistributes BigSolDB-derived rows (canonicalised, corrected "
+         "and cleaned, under BigSolDB's CC BY 4.0 licence) in data/interim/, "
+         "but not the original raw archive. To regenerate every artifact from "
+         "scratch, download the upstream archive and re-run scripts/01..81 (the pipeline "
          "is deterministic; row-by-row reproducibility is asserted by "
          "scripts/03_targeted_checks.py)."),
 
@@ -652,6 +654,7 @@ def build_dataset() -> OrderedDict:
         ("url", DATASET_HOMEPAGE),
         ("version", "1.0"),
         ("datePublished", "2026-05-07"),
+        ("dateModified", "2026-11-04"),
         ("citeAs", cite_as),
         ("creator", [
             OrderedDict([("@type", "sc:Person"), ("name", name)])

@@ -152,7 +152,7 @@ per-column field map with `dataType` (`sc:Text`, `sc:Float`, `sc:Integer`,
 ### Regenerating
 
 ```bash
-# defaults target https://github.com/VanshRamani/SC3 (branch main); override
+# defaults target https://github.com/VanshRamani/SC3 (release tag v1.0); override
 # via SC3_REPO_URL / SC3_REPO_BRANCH / SC3_DATASET_HOMEPAGE to retarget a fork:
 python scripts/90_generate_croissant.py
 ```
@@ -171,7 +171,7 @@ file or a URL pointing to the metadata file:
 - Croissant Editor —  <https://huggingface.co/spaces/MLCommons/croissant-editor>
 
 The validator needs the **raw-bytes URL**, not the GitHub page — paste
-`https://raw.githubusercontent.com/VanshRamani/SC3/main/sc3/croissant.json`
+`https://raw.githubusercontent.com/VanshRamani/SC3/v1.0/sc3/croissant.json`
 into the checker. Every `contentUrl` inside `croissant.json` uses the same
 `raw.githubusercontent.com` form, so `mlcroissant` and the validator can
 fetch the CSVs directly.
