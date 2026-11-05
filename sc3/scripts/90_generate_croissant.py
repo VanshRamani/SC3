@@ -5,7 +5,7 @@ The output is a self-contained JSON-LD document that conforms to:
 * MLCommons Croissant 1.1  -- ``http://mlcommons.org/croissant/1.1``
 * MLCommons RAI 1.0        -- ``http://mlcommons.org/croissant/RAI/1.0``
 
-It accompanies the public SC3 release (NeurIPS 2026 Datasets & Benchmarks).  We deliberately
+It accompanies the public SC3 release (NeurIPS 2026 Evaluations & Datasets Track).  We deliberately
 build the JSON-LD with the standard library only so the script runs on
 any Python >= 3.8 without pulling ``mlcroissant`` (which requires Python
 3.10+).
@@ -280,6 +280,8 @@ CONTEXT = OrderedDict([
     ("source", "cr:source"),
     ("subField", "cr:subField"),
     ("transform", "cr:transform"),
+    ("samplingRate", "cr:samplingRate"),
+    ("equivalentProperty", "cr:equivalentProperty"),
 ])
 
 
@@ -365,10 +367,11 @@ def build_dataset() -> OrderedDict:
         "The corpus ships "
         "three nested quality tiers -- Gold (335 pairs / 4,507 measurements, "
         "pair-level inter-lab MAE <= 0.1 log S), Silver (400 / 5,475, MAE "
-        "<= 0.2), and Bronze (469 / 6,331, MAE <= 0.5) -- plus three solute-"
-        "disjoint benchmark splits: bench_train (61,403 rows), bench_eval "
-        "(6,969 rows, in-distribution), and bench_ood (11,940 rows, unseen "
-        "solvents). Every (solute, solvent, T) row is a literature-reported "
+        "<= 0.2), and Bronze (469 / 6,331, MAE <= 0.5) -- plus three "
+        "leakage-checked benchmark splits: bench_train (61,403 rows), "
+        "bench_eval (6,969 rows; new (solute, solvent) pairs in the top-25 "
+        "solvents), and bench_ood (11,940 rows, unseen solvents). The 148 "
+        "tier solutes are absent from all three splits. Every (solute, solvent, T) row is a literature-reported "
         "measurement; consensus tier labels are the mean of independent "
         "Apelblat/van't Hoff fits, with per-point sigma calibrated from "
         "fit-level disagreement (floored at 0.012 log S). The empirical "
@@ -383,7 +386,7 @@ def build_dataset() -> OrderedDict:
         "  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya "
         "and Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},\n"
         "  booktitle = {Advances in Neural Information Processing Systems "
-        "(Datasets and Benchmarks Track)},\n"
+        "(Evaluations and Datasets Track)},\n"
         "  year      = {2026},\n"
         "  url       = {" + DATASET_HOMEPAGE + "}\n"
         "}"
@@ -392,7 +395,9 @@ def build_dataset() -> OrderedDict:
     rai = OrderedDict([
         # ---- Provenance (PROV-O) ----
         ("prov:wasDerivedFrom", OrderedDict([
-            ("@type", "sc:Dataset"),
+            # prov:Entity, not sc:Dataset: a second sc:Dataset node makes
+            # mlcroissant pick the root dataset nondeterministically.
+            ("@type", "prov:Entity"),
             ("@id", "https://doi.org/10.5281/zenodo.18552681"),
             # `name` must match Croissant's [A-Za-z0-9_-]+ pattern (no spaces / dots).
             ("name", "BigSolDB-v2-1"),
@@ -425,7 +430,7 @@ def build_dataset() -> OrderedDict:
          "(D-13) -> Phase 3B Stage B' interpolated copycats and Stage C' "
          "reliability (D-14) -> Phase 5 aleatoric noise estimation epsilon_A "
          "= 0.11 log S (D-13) -> Phase 6 nested tier construction "
-         "Gold/Silver/Bronze (D-15) -> Phase 7 solute-disjoint train/eval/OOD "
+         "Gold/Silver/Bronze (D-15) -> Phase 7 leakage-checked train/eval/OOD "
          "splits (D-16) -> Phase 8 metric suite RMSE/MAE/MedAE/PS-RMSE/Z-RMSE "
          "(D-17). Implementation: Python + RDKit + SciPy + scikit-learn + "
          "pandas/numpy. No human annotators, no crowdsourcing, no synthetic "
@@ -450,7 +455,7 @@ def build_dataset() -> OrderedDict:
          "bit-exact (D-05 Stage A) and interpolated MAE-based (D-14 Stage B'); "
          "(iv) per-independence-group Apelblat / van't Hoff fits (D-13); "
          "(v) inter-lab aleatoric noise estimation (D-13, D-14); (vi) three "
-         "nested tiers (D-15); and (vii) anti-leakage solute-disjoint "
+         "nested tiers (D-15); and (vii) leakage-checked "
          "train/eval/OOD splits (D-16)."),
 
         ("rai:dataCollectionType",
@@ -614,15 +619,20 @@ def build_dataset() -> OrderedDict:
          "categories are present at any phase of the pipeline."),
 
         ("rai:dataReleaseMaintenancePlan",
-         "SC3 v1 is the version submitted to NeurIPS 2026 Datasets & "
-         "Benchmarks for review. The reproducible curation pipeline "
+         "SC3 v1 accompanies the NeurIPS 2026 Evaluations & Datasets Track "
+         "paper (camera-ready). The reproducible curation pipeline "
          "(scripts/01..81) is shipped alongside the dataset and regenerates "
          "every artifact bit-exactly from BigSolDB v2.1. Future versions "
          "are planned to track upstream BigSolDB releases. The dataset is "
          "released publicly under CC-BY-4.0 at "
          "https://github.com/VanshRamani/SC3; the anonymous review mirror "
-         "is deprecated. The maintainers commit to keeping the public release "
-         "available for at least five years post-publication."),
+         "is deprecated. Releases are tagged (v1.0 onwards) and every "
+         "contentUrl in this file points at an immutable tag. Questions and "
+         "error reports go to the GitHub issue tracker or to the "
+         "corresponding author, Har Ashish Arora "
+         "(harashish.cs124@cse.iitd.ac.in). The maintainers commit to keeping "
+         "the public release available for at least five years "
+         "post-publication."),
     ])
 
     dataset = OrderedDict([

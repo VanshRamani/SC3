@@ -1,8 +1,9 @@
 # SC³ — Benchmark & Modeling SDK
 
-This repository accompanies the NeurIPS 2026 Datasets & Benchmarks paper
+This repository accompanies the NeurIPS 2026 Evaluations & Datasets Track paper
 *SC³: A Multi-Solvent Solubility Challenge and Benchmark*
-(Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar). It ships
+(Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar; corresponding
+author: Har Ashish Arora, harashish.cs124@cse.iitd.ac.in). It ships
 **(i)** the SC³ benchmark dataset together with its full curation
 pipeline and **(ii)** a unified Python SDK for training and evaluating
 solubility-prediction models on that benchmark.
@@ -153,7 +154,7 @@ If you use SC³, please cite the paper and the upstream BigSolDB dataset:
   author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and
                Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},
   booktitle = {Advances in Neural Information Processing Systems
-               (Datasets and Benchmarks Track)},
+               (Evaluations and Datasets Track)},
   year      = {2026},
   url       = {https://github.com/VanshRamani/SC3}
 }
