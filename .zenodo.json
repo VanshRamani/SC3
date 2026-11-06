@@ -1,0 +1,54 @@
+{
+  "title": "SC3: A Multi-Solvent Solubility Challenge and Benchmark",
+  "upload_type": "dataset",
+  "description": "SC3 is a multi-solvent solubility benchmark built on BigSolDB v2.1. It provides a reproducible curation pipeline that groups literature measurements by independent source, Gold/Silver/Bronze consensus tiers with per-point uncertainty, leakage-checked benchmark splits, a per-solvent metric suite, a Croissant 1.1 metadata file, and the code for a 31-model benchmark. Accompanies the NeurIPS 2026 Evaluations and Datasets Track paper.",
+  "creators": [
+    {
+      "name": "Ramani, Vansh",
+      "affiliation": "Indian Institute of Technology Delhi"
+    },
+    {
+      "name": "Arora, Har Ashish",
+      "affiliation": "Indian Institute of Technology Delhi"
+    },
+    {
+      "name": "Kuchhal, Dhairya",
+      "affiliation": "Indian Institute of Technology Delhi"
+    },
+    {
+      "name": "Tatarin, Sergei",
+      "affiliation": "Kurnakov Institute of General and Inorganic Chemistry RAS"
+    },
+    {
+      "name": "Krasnov, Lev",
+      "affiliation": "Kurnakov Institute of General and Inorganic Chemistry RAS"
+    },
+    {
+      "name": "Ranu, Sayan",
+      "affiliation": "Indian Institute of Technology Delhi"
+    },
+    {
+      "name": "Karmakar, Tarak",
+      "affiliation": "Indian Institute of Technology Delhi"
+    }
+  ],
+  "license": "cc-by-4.0",
+  "keywords": [
+    "solubility",
+    "benchmark",
+    "dataset",
+    "cheminformatics",
+    "machine learning",
+    "aleatoric uncertainty",
+    "BigSolDB",
+    "Croissant"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/VanshRamani/SC3",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "version": "1.0.1"
+}
