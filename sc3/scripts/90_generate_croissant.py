@@ -41,6 +41,8 @@ AUTHORS = [
     "Vansh Ramani", "Har Ashish Arora", "Dhairya Kuchhal", "Sergei Tatarin",
     "Lev Krasnov", "Sayan Ranu", "Tarak Karmakar",
 ]
+# Zenodo concept DOI (resolves to the latest archived GitHub release).
+ZENODO_DOI = "10.5281/zenodo.23999756"
 DATASET_HOMEPAGE = os.environ.get("SC3_DATASET_HOMEPAGE", REPO_URL).rstrip("/")
 
 
@@ -662,9 +664,11 @@ def build_dataset() -> OrderedDict:
         ]),
         ("license", "https://creativecommons.org/licenses/by/4.0/"),
         ("url", DATASET_HOMEPAGE),
-        ("version", "1.0"),
+        ("identifier", "https://doi.org/" + ZENODO_DOI),
+        ("sameAs", ["https://doi.org/" + ZENODO_DOI]),
+        ("version", "1.0.1"),
         ("datePublished", "2026-05-07"),
-        ("dateModified", "2026-11-04"),
+        ("dateModified", "2026-11-06"),
         ("citeAs", cite_as),
         ("creator", [
             OrderedDict([("@type", "sc:Person"), ("name", name)])

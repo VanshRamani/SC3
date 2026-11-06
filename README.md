@@ -1,5 +1,7 @@
 # SC³ — Benchmark & Modeling SDK
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23999756.svg)](https://doi.org/10.5281/zenodo.23999756)
+
 This repository accompanies the NeurIPS 2026 Evaluations & Datasets Track paper
 *SC³: A Multi-Solvent Solubility Challenge and Benchmark*
 (Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar; corresponding
@@ -157,6 +159,16 @@ If you use SC³, please cite the paper and the upstream BigSolDB dataset:
                (Evaluations and Datasets Track)},
   year      = {2026},
   url       = {https://github.com/VanshRamani/SC3}
+}
+
+@dataset{ramani2026sc3data,
+  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},
+  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and
+               Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},
+  publisher = {Zenodo},
+  year      = {2026},
+  doi       = {10.5281/zenodo.23999756},
+  url       = {https://doi.org/10.5281/zenodo.23999756}
 }
 
 @article{krasnov2025bigsoldb,

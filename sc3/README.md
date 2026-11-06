@@ -3,6 +3,7 @@
 This directory contains the curation pipeline and shipped data artifacts for
 the **SC³ benchmark**: a tiered, thermodynamically-consistent multi-solvent
 solubility dataset derived from BigSolDB v2.1.
+Archived on Zenodo: [doi:10.5281/zenodo.23999756](https://doi.org/10.5281/zenodo.23999756).
 
 The pipeline is reproducible: starting from the raw archive, every script
 under `scripts/` is numbered by phase and produces a deterministic artifact
