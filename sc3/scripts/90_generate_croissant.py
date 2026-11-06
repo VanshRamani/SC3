@@ -39,7 +39,7 @@ REPO_URL = os.environ.get(
 REPO_BRANCH = os.environ.get("SC3_REPO_BRANCH", "v1.0")
 AUTHORS = [
     "Vansh Ramani", "Har Ashish Arora", "Dhairya Kuchhal", "Sergei Tatarin",
-    "Lev Krasnov", "Sayan Ranu", "Tarak Karmakar",
+    "Lev Krasnov", "Tarak Karmakar", "Sayan Ranu",
 ]
 # Zenodo concept DOI (resolves to the latest archived GitHub release).
 ZENODO_DOI = "10.5281/zenodo.23999756"
@@ -386,7 +386,7 @@ def build_dataset() -> OrderedDict:
         "@inproceedings{ramani2026sc3,\n"
         "  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},\n"
         "  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya "
-        "and Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},\n"
+        "and Tatarin, Sergei and Krasnov, Lev and Karmakar, Tarak and Ranu, Sayan},\n"
         "  booktitle = {Advances in Neural Information Processing Systems "
         "(Evaluations and Datasets Track)},\n"
         "  year      = {2026},\n"

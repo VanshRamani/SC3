@@ -79,7 +79,7 @@
   "version": "1.0.1",
   "datePublished": "2026-05-07",
   "dateModified": "2026-11-06",
-  "citeAs": "@inproceedings{ramani2026sc3,\n  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},\n  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},\n  booktitle = {Advances in Neural Information Processing Systems (Evaluations and Datasets Track)},\n  year      = {2026},\n  url       = {https://github.com/VanshRamani/SC3}\n}",
+  "citeAs": "@inproceedings{ramani2026sc3,\n  title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},\n  author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and Tatarin, Sergei and Krasnov, Lev and Karmakar, Tarak and Ranu, Sayan},\n  booktitle = {Advances in Neural Information Processing Systems (Evaluations and Datasets Track)},\n  year      = {2026},\n  url       = {https://github.com/VanshRamani/SC3}\n}",
   "creator": [
     {
       "@type": "sc:Person",
@@ -103,11 +103,11 @@
     },
     {
       "@type": "sc:Person",
-      "name": "Sayan Ranu"
+      "name": "Tarak Karmakar"
     },
     {
       "@type": "sc:Person",
-      "name": "Tarak Karmakar"
+      "name": "Sayan Ranu"
     }
   ],
   "publisher": {

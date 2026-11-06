@@ -4,7 +4,7 @@
 
 This repository accompanies the NeurIPS 2026 Evaluations & Datasets Track paper
 *SC³: A Multi-Solvent Solubility Challenge and Benchmark*
-(Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar; corresponding
+(Ramani, Arora, Kuchhal, Tatarin, Krasnov, Karmakar, Ranu; corresponding
 author: Vansh Ramani, vansh.ramani.iitd@gmail.com). It ships
 **(i)** the SC³ benchmark dataset together with its full curation
 pipeline and **(ii)** a unified Python SDK for training and evaluating
@@ -154,7 +154,7 @@ If you use SC³, please cite the paper and the upstream BigSolDB dataset:
 @inproceedings{ramani2026sc3,
   title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},
   author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and
-               Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},
+               Tatarin, Sergei and Krasnov, Lev and Karmakar, Tarak and Ranu, Sayan},
   booktitle = {Advances in Neural Information Processing Systems
                (Evaluations and Datasets Track)},
   year      = {2026},
@@ -164,7 +164,7 @@ If you use SC³, please cite the paper and the upstream BigSolDB dataset:
 @dataset{ramani2026sc3data,
   title     = {{SC}$^3$: A Multi-Solvent Solubility Challenge and Benchmark},
   author    = {Ramani, Vansh and Arora, Har Ashish and Kuchhal, Dhairya and
-               Tatarin, Sergei and Krasnov, Lev and Ranu, Sayan and Karmakar, Tarak},
+               Tatarin, Sergei and Krasnov, Lev and Karmakar, Tarak and Ranu, Sayan},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.23999756},
