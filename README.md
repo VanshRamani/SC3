@@ -5,7 +5,7 @@
 This repository accompanies the NeurIPS 2026 Evaluations & Datasets Track paper
 *SC³: A Multi-Solvent Solubility Challenge and Benchmark*
 (Ramani, Arora, Kuchhal, Tatarin, Krasnov, Ranu, Karmakar; corresponding
-author: Har Ashish Arora, harashish.cs124@cse.iitd.ac.in). It ships
+author: Vansh Ramani, vansh.ramani.iitd@gmail.com). It ships
 **(i)** the SC³ benchmark dataset together with its full curation
 pipeline and **(ii)** a unified Python SDK for training and evaluating
 solubility-prediction models on that benchmark.

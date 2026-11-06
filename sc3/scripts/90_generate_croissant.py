@@ -627,12 +627,12 @@ def build_dataset() -> OrderedDict:
          "every artifact bit-exactly from BigSolDB v2.1. Future versions "
          "are planned to track upstream BigSolDB releases. The dataset is "
          "released publicly under CC-BY-4.0 at "
-         "https://github.com/VanshRamani/SC3; the anonymous review mirror "
-         "is deprecated. Releases are tagged (v1.0 onwards) and every "
+         "https://github.com/VanshRamani/SC3 and archived on Zenodo "
+         "(doi:" + ZENODO_DOI + "). Releases are tagged (v1.0 onwards) and every "
          "contentUrl in this file points at an immutable tag. Questions and "
          "error reports go to the GitHub issue tracker or to the "
-         "corresponding author, Har Ashish Arora "
-         "(harashish.cs124@cse.iitd.ac.in). The maintainers commit to keeping "
+         "corresponding author, Vansh Ramani "
+         "(vansh.ramani.iitd@gmail.com). The maintainers commit to keeping "
          "the public release available for at least five years "
          "post-publication."),
     ])
